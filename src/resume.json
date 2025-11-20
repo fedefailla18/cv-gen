@@ -1,0 +1,146 @@
+{
+  "basics": {
+    "name": "Federico Failla",
+    "label": "Java Developer | Software Engineer",
+    "image": "",
+    "email": "fedefailla@hotmail.com",
+    "phone": "02612593430",
+    "url": "https://www.linkedin.com/in/ffailla/",
+    "summary": "Software developer with more than 5 years of experience working mainly with Java in different sectors, including banking, taxes, gaming, and reservation/order management systems. In recent years I have contributed to online booking and work-order platforms, handling application implementation and deployment with GitLab, AZDO, Docker and Rancher. I have strong experience with Java 8–17 and Spring Boot, as well as knowledge of React and TypeScript for building modern user interfaces. I am characterized by teamwork, collaboration and a commitment to delivering efficient, high-quality solutions.",
+    "location": {
+      "city": "Zapala",
+      "region": "Neuquén",
+      "countryCode": "AR"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "Federico Failla",
+        "url": "https://www.linkedin.com/in/ffailla/"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Distillery",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "10/2021",
+      "endDate": "Present",
+      "summary": "Development of services using Java 8–17 and React within a microservices environment. Part of a cross-functional team collaborating across multiple areas of a nationwide U.S. online booking company. Focused on efficiency, development best practices, code quality and application security while building scalable, robust systems together with Product, QA and BI teams.",
+      "highlights": [
+        "Tech stack: Java 17, Spring 3.4, Groovy Spock, React 18, PostgreSQL, RabbitMQ, Docker, GitLab, Azure DevOps."
+      ]
+    },
+    {
+      "name": "Aconcagua Software Factory",
+      "position": "Java Developer",
+      "url": "",
+      "startDate": "02/2020",
+      "endDate": "10/2021",
+      "summary": "Development of enterprise applications using Java, Spring and React. Built a JHipster-based project to manage collaborators and projects. Collaborated with a U.S. company to develop the back-office of a game and its related services.",
+      "highlights": [
+        "Created a JHipster project to manage collaborators and projects.",
+        "Backend development for a U.S. gaming company using Java 11 and Spring Boot.",
+        "Technologies: Spring Boot, React, Gradle, PostgreSQL, Docker, Flyway, Redis, RabbitMQ."
+      ]
+    },
+    {
+      "name": "Aconcagua Software Factory",
+      "position": "Java Developer",
+      "url": "",
+      "startDate": "05/2017",
+      "endDate": "03/2018",
+      "summary": "Development of a REST API using Spring for a major oil company. Responsible for building secure, scalable enterprise services.",
+      "highlights": [
+        "Created a REST API for an energy-sector company.",
+        "Stack: Java 8, Spring, REST, Maven."
+      ]
+    },
+    {
+      "name": "Administración Tributaria Mendoza (ATM)",
+      "position": "Java Developer",
+      "url": "",
+      "startDate": "01/2017",
+      "endDate": "05/2017",
+      "summary": "Development and maintenance of internal applications using Java 6 and 7, Hibernate and ZKoss. SQL query optimization and creation of fiscal reports using JasperReports.",
+      "highlights": [
+        "SQL optimization with JDBC.",
+        "Mass printing of fiscal reports with JasperReports and Java.",
+        "Web development with HTML, CSS, JSP and JavaScript."
+      ]
+    },
+    {
+      "name": "ATM",
+      "position": "Java Developer",
+      "url": "",
+      "startDate": "05/2013",
+      "endDate": "05/2016",
+      "summary": "Participation in various projects using Java 6 and 7, Hibernate and ZKoss. Development of SQL queries, fiscal reports and informational web systems.",
+      "highlights": [
+        "Development with Java 6–7, Hibernate and ZKoss.",
+        "SQL queries with JDBC.",
+        "Mass report generation with JasperReports and Java.",
+        "Informational website development using HTML, CSS, JSP and JavaScript."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Universidad Tecnológica Nacional",
+      "url": "",
+      "area": "Systems Engineering (Incomplete)",
+      "studyType": "Bachelor",
+      "startDate": "2013",
+      "endDate": "2016",
+      "location": "Mendoza, Argentina"
+    },
+    {
+      "institution": "ISI College",
+      "url": "",
+      "area": "Systems Analyst",
+      "studyType": "Technical Degree",
+      "startDate": "2019",
+      "endDate": "2022",
+      "location": "Neuquén, Argentina"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Java",
+      "level": "Advanced",
+      "keywords": ["Java 8", "Java 11", "Java 17", "Spring Boot", "Maven", "Gradle"]
+    },
+    {
+      "name": "Frontend",
+      "level": "Intermediate",
+      "keywords": ["React", "TypeScript", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "name": "DevOps & Infrastructure",
+      "level": "Intermediate",
+      "keywords": ["Docker", "Rancher", "GitLab CI/CD", "Azure DevOps"]
+    },
+    {
+      "name": "Databases",
+      "level": "Intermediate",
+      "keywords": ["PostgreSQL", "Redis", "SQL", "JDBC"]
+    },
+    {
+      "name": "Testing",
+      "level": "Intermediate",
+      "keywords": ["Groovy Spock", "JUnit"]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Spanish",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "Upper-Intermediate (B2)"
+    }
+  ]
+}
+
