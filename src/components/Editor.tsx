@@ -1,15 +1,13 @@
-import React from 'react';
-import JSONInput from "react-json-editor-ajrm";
+import JSONInput from 'react-json-editor-ajrm';
 // @ts-ignore - locale file doesn't have types
-import locale from "react-json-editor-ajrm/locale/en";
+import locale from 'react-json-editor-ajrm/locale/en';
+
+import { useResumeContext } from '../context/ResumeContext';
 import { Resume } from '../types';
 
-interface EditorProps {
-  resume: Resume;
-  setResume: (resume: Resume) => void;
-}
+const Editor = () => {
+  const { resume, setResume } = useResumeContext();
 
-export default function Editor({ resume, setResume }: EditorProps) {
   return (
     <div className="bg-white p-4 rounded-xl shadow">
       <h2 className="text-lg font-semibold mb-2">Edit your CV JSON</h2>
@@ -24,4 +22,6 @@ export default function Editor({ resume, setResume }: EditorProps) {
       />
     </div>
   );
-}
+};
+
+export default Editor;

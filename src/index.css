@@ -8,7 +8,12 @@ html, body, #root {
 
 /* Print-friendly tweaks */
 @media print {
-  body { -webkit-print-color-adjust: exact; }
+  body { -webkit-print-color-adjust: exact; 
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 24px;
+
+}
   .no-print { display: none !important; }
 }
 

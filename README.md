@@ -24,3 +24,24 @@ npm run dev
 - This scaffold uses Tailwind for quick styling — change classes in `src/components/CV.tsx` to customize.
 - If you prefer `jspdf` or `html2pdf` for heavier PDF control (page breaks, headers), I can add it.
 
+## Linting & Formatting
+
+This project uses ESLint v9 with the new flat config (`eslint.config.js`) and Prettier.
+
+- Run lint:
+```bash 
+  npm run lint
+```
+
+- Auto-fix lint issues:
+```bash 
+  npm run lint:fix  
+``` 
+
+- Format all source files:
+```bash
+  npm run format
+```
+
+If you add or change lint rules, edit `eslint.config.js`. The legacy `.eslintrc.*` format is not used with ESLint v9.
+

@@ -10,8 +10,7 @@ export function exportToPDF() {
   // If html2pdf.js is added, uncomment the following:
   // import html2pdf from "html2pdf.js";
   // html2pdf().from(element).save("cv.pdf");
-  
+
   // For now, use browser's print functionality
   window.print();
 }
-

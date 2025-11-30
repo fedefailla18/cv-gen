@@ -1,24 +1,37 @@
 import React from 'react';
 
-interface ThemeSelectorProps {
-  theme: string;
-  setTheme: (theme: string) => void;
-}
+import { useResumeContext } from '../context/ResumeContext';
+import { ThemeName, THEMES } from '../themes';
 
-export default function ThemeSelector({ theme, setTheme }: ThemeSelectorProps) {
+const prettyThemeLabels: Record<ThemeName, string> = {
+  modern: 'Modern',
+  minimal: 'Minimal',
+  compact: 'Compact',
+  twocolumn: 'Two Column',
+};
+
+const ThemeSelector = () => {
+  const { theme, setTheme } = useResumeContext();
+
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTheme(e.target.value as ThemeName);
+  };
+
   return (
     <div className="bg-white p-4 rounded-xl shadow">
       <h2 className="text-lg font-semibold mb-2">Theme</h2>
-      <select
-        className="w-full p-2 border rounded"
-        value={theme}
-        onChange={(e) => setTheme(e.target.value)}
-      >
-        <option value="modern">Modern</option>
-        <option value="minimal">Minimal</option>
-        <option value="compact">Compact</option>
-        <option value="twocolumn">Two Column</option>
+      <select className="w-full p-2 border rounded" value={theme} onChange={handleThemeChange}>
+        {Object.keys(THEMES).map((key) => {
+          const name = key as ThemeName;
+          return (
+            <option key={key} value={key}>
+              {prettyThemeLabels[name] ?? name}
+            </option>
+          );
+        })}
       </select>
     </div>
   );
-}
+};
+
+export default ThemeSelector;
