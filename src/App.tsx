@@ -53,29 +53,31 @@ const App = () => {
         </div>
 
         {viewMode === 'edit' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
             <div className="lg:col-span-1 space-y-4">
               <ThemeSelector />
               <SectionsManager />
+            </div>
+            <div className="lg:col-span-1">
               <Editor />
             </div>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-1 space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+              <div className="lg:col-span-1 space-y-4 w-1/6">
                 <ThemeSelector />
               </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h2 className="text-xl font-semibold mb-4">CV Preview</h2>
-              <div ref={componentRef}>
-                <CVPreview
-                  resume={resume}
-                  sections={sections}
-                  theme={theme}
-                  setSections={setSections}
-                />
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <h2 className="text-xl font-semibold mb-4 space-y-3">CV Preview</h2>
+                <div ref={componentRef}>
+                  <CVPreview
+                    resume={resume}
+                    sections={sections}
+                    theme={theme}
+                    setSections={setSections}
+                  />
+                </div>
               </div>
             </div>
           </>

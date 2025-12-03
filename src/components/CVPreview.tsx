@@ -1,17 +1,11 @@
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
 
-import { ThemeName, THEMES } from '../themes';
-import { Resume } from '../types';
+import { THEMES } from '../themes';
 import { reorderSections } from '../utils/reorder';
+import { useResumeContext } from '../context/ResumeContext';
 
-interface CVPreviewProps {
-  resume: Resume;
-  sections: string[];
-  theme: ThemeName;
-  setSections: (sections: string[]) => void;
-}
-
-export const CVPreview = ({ resume, sections, theme, setSections }: CVPreviewProps) => {
+export const CVPreview = () => {
+  const { resume, sections, theme, setSections } = useResumeContext();
   const ThemeComponent = THEMES[theme];
 
   const onDragEnd = (result: DropResult) => {
