@@ -1,7 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import JSONInput from 'react-json-editor-ajrm';
-// @ts-ignore - locale file doesn't have types
-import locale from 'react-json-editor-ajrm/locale/en';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useResumeContext } from '../context/ResumeContext';
 import { Resume } from '../types';
@@ -9,29 +6,75 @@ import { Resume } from '../types';
 const Editor = () => {
   const { resume, setResume } = useResumeContext();
 
+  // Initialize JSON text from resume
+  const initializeJsonText = () => JSON.stringify(resume, null, 2);
+
   // Keep edits local until the user saves
+  const [jsonText, setJsonText] = useState<string>(initializeJsonText);
   const [pendingResume, setPendingResume] = useState<Resume | null>(null);
   const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [hasChanges, setHasChanges] = useState(false);
-  // Changing this key will remount the JSON editor, resetting it to the latest resume
-  const [editorKey, setEditorKey] = useState(0);
+  const lastSavedResumeRef = useRef<string>(JSON.stringify(resume));
 
   // Simple toast state
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  const toastTimer = useRef<number | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showToast = (type: 'success' | 'error', message: string) => {
     setToast({ type, message });
-    if (toastTimer.current) window.clearTimeout(toastTimer.current);
-    toastTimer.current = window.setTimeout(() => setToast(null), 2500);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    // eslint-disable-next-line no-restricted-globals
+    toastTimer.current = setTimeout(() => setToast(null), 2500);
   };
 
   useEffect(
     () => () => {
-      if (toastTimer.current) window.clearTimeout(toastTimer.current);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (toastTimer.current) clearTimeout(toastTimer.current);
     },
     [],
   );
+
+  // Sync with resume when it changes externally (not from our own save)
+  // This is a valid use case for syncing external state changes
+  useEffect(() => {
+    const currentResumeString = JSON.stringify(resume);
+    // Only update if resume changed externally and we don't have unsaved changes
+    if (lastSavedResumeRef.current !== currentResumeString && !hasChanges) {
+      lastSavedResumeRef.current = currentResumeString;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      setJsonText(JSON.stringify(resume, null, 2));
+      setPendingResume(null);
+      setHasError(false);
+      setErrorMessage('');
+    }
+    // hasChanges is intentionally excluded from deps to prevent unnecessary updates
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resume]);
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setJsonText(newText);
+    setHasChanges(true);
+
+    // Try to parse JSON
+    try {
+      const parsed = JSON.parse(newText) as Resume;
+      setPendingResume(parsed);
+      setHasError(false);
+      setErrorMessage('');
+    } catch (error) {
+      setHasError(true);
+      setPendingResume(null);
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('Invalid JSON syntax');
+      }
+    }
+  };
 
   const handleSave = () => {
     if (hasError) {
@@ -43,27 +86,32 @@ const Editor = () => {
       return;
     }
     setResume(pendingResume);
+    lastSavedResumeRef.current = JSON.stringify(pendingResume);
     setHasChanges(false);
     showToast('success', 'CV saved successfully.');
   };
 
   const handleCancel = () => {
+    // Revert to the last saved resume
+    const formattedJson = JSON.stringify(resume, null, 2);
+    setJsonText(formattedJson);
     setPendingResume(null);
     setHasError(false);
+    setErrorMessage('');
     setHasChanges(false);
-    // Remount editor so it reloads current resume from context
-    setEditorKey((k) => k + 1);
   };
 
-  const handleJsonEditorChange = (e: any) => {
-    // react-json-editor-ajrm provides e.error when JSON is invalid
-    if (e?.error) {
-      setHasError(true);
-      setHasChanges(true); // user started editing
-    } else {
+  const handleFormat = () => {
+    try {
+      const parsed = JSON.parse(jsonText);
+      const formatted = JSON.stringify(parsed, null, 2);
+      setJsonText(formatted);
+      setPendingResume(parsed as Resume);
       setHasError(false);
+      setErrorMessage('');
       setHasChanges(true);
-      setPendingResume(e?.jsObject as Resume);
+    } catch {
+      showToast('error', 'Cannot format: JSON has errors.');
     }
   };
 
@@ -74,10 +122,19 @@ const Editor = () => {
         <div className="flex items-center gap-2">
           <button
             type="button"
+            aria-label="Format JSON"
+            title="Format JSON"
+            onClick={handleFormat}
+            className="rounded-md px-2 py-1 bg-gray-600 hover:bg-gray-700 text-white text-sm transition-colors"
+          >
+            Format
+          </button>
+          <button
+            type="button"
             aria-label="Save changes"
             title={hasError ? 'Fix JSON errors before saving' : 'Save changes'}
             onClick={handleSave}
-            disabled={false}
+            disabled={hasError || !hasChanges || !pendingResume}
             className={`rounded-md px-2 py-1 text-white text-sm transition-colors ${
               hasError || !hasChanges || !pendingResume
                 ? 'bg-green-300 cursor-not-allowed'
@@ -97,22 +154,24 @@ const Editor = () => {
           </button>
         </div>
       </div>
-      <JSONInput
-        key={editorKey}
-        id="resume-editor"
-        locale={locale}
-        height="400px"
-        placeholder={resume}
-        onChange={handleJsonEditorChange}
+      <textarea
+        value={jsonText}
+        onChange={handleTextChange}
+        className={`w-full p-3 border rounded-md font-mono text-sm resize-y min-h-[400px] ${
+          hasError ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-white'
+        }`}
+        spellCheck={false}
+        placeholder="Enter your CV JSON here..."
       />
       {hasError && (
-        <p className="mt-2 text-sm text-red-600">
-          There is a JSON error. Please fix it before saving.
-        </p>
+        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded-md">
+          <p className="text-sm font-semibold text-red-600">JSON Error:</p>
+          <p className="text-sm text-red-600">{errorMessage}</p>
+        </div>
       )}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 px-4 py-3 rounded-md shadow-lg text-white ${
+          className={`fixed bottom-6 right-6 px-4 py-3 rounded-md shadow-lg text-white z-50 ${
             toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'
           }`}
           role="status"
@@ -123,6 +182,6 @@ const Editor = () => {
       )}
     </div>
   );
-};;
+};
 
 export default Editor;

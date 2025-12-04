@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 import { CVPreview } from './components/CVPreview';
@@ -53,12 +53,12 @@ const App = () => {
         </div>
 
         {viewMode === 'edit' ? (
-          <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
-            <div className="lg:col-span-1 space-y-4">
+          <div className="grid grid-cols-3 lg:grid-cols-7 gap-6">
+            <div className="lg:col-span-2 space-y-4">
               <ThemeSelector />
               <SectionsManager />
             </div>
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-5">
               <Editor />
             </div>
           </div>
@@ -71,12 +71,7 @@ const App = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg">
                 <h2 className="text-xl font-semibold mb-4 space-y-3">CV Preview</h2>
                 <div ref={componentRef}>
-                  <CVPreview
-                    resume={resume}
-                    sections={sections}
-                    theme={theme}
-                    setSections={setSections}
-                  />
+                  <CVPreview />
                 </div>
               </div>
             </div>
