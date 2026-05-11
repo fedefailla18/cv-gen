@@ -140,7 +140,7 @@ export const CVPreview = () => {
                       snapshot.isDragging
                         ? 'opacity-50 shadow-lg'
                         : 'hover:bg-gray-50 transition-colors'
-                    } rounded-lg p-2 cursor-move`}
+                    } rounded-lg p-2 cursor-move print:cursor-default print:p-0`}
                   >
                     <ThemeComponent resume={resume} section={sec} />
                   </div>

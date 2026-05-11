@@ -6,6 +6,7 @@ import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import importPlugin from 'eslint-plugin-import'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import globals from 'globals'
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
@@ -16,6 +17,10 @@ export default [
         files: ['src/**/*.{ts,tsx,js,jsx}'],
         languageOptions: {
             parser: tsParser,
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
             parserOptions: {
                 project: ['./tsconfig.json'],
                 tsconfigRootDir: import.meta.dirname,

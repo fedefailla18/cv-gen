@@ -6,14 +6,118 @@ html, body, #root {
   height: 100%;
 }
 
-/* Print-friendly tweaks */
+/* Print-friendly styles for browser printing */
 @media print {
-  body { -webkit-print-color-adjust: exact; 
-  max-width: 750px;
-  margin: 0 auto;
-  padding: 24px;
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
 
-}
-  .no-print { display: none !important; }
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  /* Hide non-printable elements */
+  .no-print,
+  button,
+  .bg-gray-100 {
+    display: none !important;
+  }
+
+  /* Hide drag and drop UI elements */
+  [class*="DragDrop"],
+  [class*="dnd"],
+  [draggable="true"],
+  [class*="cursor-move"],
+  [class*="hover:bg-gray-50"] {
+    cursor: default !important;
+  }
+
+  /* Remove drag handles and interactive elements */
+  [class*="dragHandle"],
+  [class*="draggable"] {
+    pointer-events: none !important;
+  }
+
+  /* Keep entire sections together - don't break inside sections */
+  div[class*="mb-6"],
+  div[class*="mb-8"],
+  div[class*="mb-5"] {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Keep work experience items together */
+  div[class*="space-y"] > div,
+  div[class*="space-y-6"] > div,
+  div[class*="space-y-5"] > div,
+  div[class*="space-y-4"] > div,
+  div[class*="space-y-3"] > div {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: auto !important;
+  }
+
+  /* Keep section titles with their content */
+  h1,
+  h2,
+  h3,
+  [class*="text-2xl"],
+  [class*="text-xl"],
+  [class*="text-lg"] {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Keep paragraphs and lists together */
+  p,
+  ul,
+  li {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Keep work/education item containers together */
+  div[class*="border-l"] {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Ensure proper spacing */
+  .bg-white {
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  /* Remove rounded corners and shadows for print */
+  .rounded-xl,
+  .rounded-lg,
+  .rounded-md,
+  .shadow,
+  .shadow-lg,
+  .shadow-md {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Optimize text for print */
+  * {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Prevent orphans and widows */
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
 }
 
