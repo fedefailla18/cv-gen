@@ -4,6 +4,7 @@ A modern, interactive CV generator that allows users to edit their resume data i
 
 ## Project Overview
 
+- **Environment:** Node.js (v22.22.2). A `.nvmrc` file is provided to manage the version.
 - **Core Technologies:** React 18, TypeScript, Vite, Tailwind CSS.
 - **State Management:** React Context API (`src/context/ResumeContext.tsx`) manages resume data, theme selection, and section ordering.
 - **Key Libraries:**
