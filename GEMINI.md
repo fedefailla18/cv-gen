@@ -73,3 +73,22 @@ This project includes a specialized **Senior Backend Engineering Interviewer** s
     1. Save interview notes in `interviews/<candidate-name>/notes.md`.
     2. Prompt the AI: "Generate feedback for the notes in `interviews/<candidate-name>/notes.md`."
     3. The AI will act as the defined Senior Interviewer role to provide a technical, concise, and calibrated evaluation.
+
+## Interviews Dashboard (Web UI)
+
+The application includes an **Interviews Dashboard** that provides a visual interface for managing hiring pipelines.
+
+- **Dynamic Reveal Pattern:** To minimize cognitive load, the dashboard follows a "Progressive Disclosure" pattern. Technical feedback is hidden by default and revealed only when the "View Technical Feedback" action is triggered.
+- **Smooth Navigation:** Upon revealing feedback, the UI automatically smooth-scrolls to the evaluation report.
+
+### BDD Scenarios (Behavior-Driven Development)
+
+**Feature: Interviewee Feedback Generation**
+*As an Interviewer, I want to view interviewee data and click a button to generate feedback on the same page, so that I can review the full evaluation without navigating away or losing context.*
+
+**Scenario: On-Demand Dynamic Reveal**
+- **Given** I am on the Interviews Dashboard
+- **And** I have selected a specific job opening
+- **When** I click the "View Full Technical Feedback" button for a candidate
+- **Then** the AI-calibrated technical evaluation should be dynamically injected below the candidate card
+- **And** the page should smoothly scroll to the beginning of the feedback section.

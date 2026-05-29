@@ -35,3 +35,28 @@ export interface Resume {
   languages?: { language: string; fluency?: string }[];
 }
 
+export interface InterviewJob {
+  id: string;
+  title: string;
+  department?: string;
+  client?: string;
+  status?: string;
+  description?: string;
+}
+
+export interface CandidateNote {
+  candidate_name: string;
+  interview_date: string;
+  interviewer: string;
+  role: string;
+  job_id: string;
+  status: string;
+  profile_summary?: string;
+  scores?: Record<string, number | string>;
+}
+
+export interface CandidateFeedback {
+  candidate_name: string;
+  content: string; // Markdown content
+}
+

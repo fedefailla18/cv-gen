@@ -5,10 +5,11 @@ import { CVPreview } from './components/CVPreview';
 import Editor from './components/Editor';
 import { SectionsManager } from './components/SectionsManager';
 import ThemeSelector from './components/ThemeSelector';
+import { InterviewsDashboard } from './components/InterviewsDashboard';
 import { useResumeContext } from './context/ResumeContext';
 import { exportToPDF } from './utils/pdfExport';
 
-type ViewMode = 'edit' | 'previewOnly';
+type ViewMode = 'edit' | 'previewOnly' | 'interviews';
 
 const App = () => {
   const { resume, theme, sections, setSections } = useResumeContext();
@@ -84,6 +85,16 @@ const App = () => {
               Preview Only
             </button>
             <button
+              onClick={() => setViewMode('interviews')}
+              className={`px-4 py-2 rounded-lg text-sm ${
+                viewMode === 'interviews'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-800 border'
+              }`}
+            >
+              Interviews
+            </button>
+            <button
               onClick={handleDownloadPDF}
               disabled={isGeneratingPDF}
               className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg shadow-md transition-colors"
@@ -109,7 +120,7 @@ const App = () => {
               <Editor />
             </div>
           </div>
-        ) : (
+        ) : viewMode === 'previewOnly' ? (
           <>
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
               <div className="lg:col-span-1 space-y-4 w-1/6">
@@ -123,6 +134,8 @@ const App = () => {
               </div>
             </div>
           </>
+        ) : (
+          <InterviewsDashboard />
         )}
 
         <div className="mt-6 text-sm text-gray-600 bg-white p-4 rounded-lg shadow">
