@@ -1,12 +1,12 @@
-import React from 'react'
-import { Resume } from '../types'
+import React from 'react';
+import { Resume } from '../types';
 
 const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h3 className="text-lg font-semibold mb-2">{children}</h3>
-)
+);
 
 const CV: React.FC<{ data: Resume }> = ({ data }) => {
-  const { basics, work = [], education = [], skills = [], languages = [] } = data
+  const { basics, work = [], education = [], skills = [], languages = [] } = data;
 
   return (
     <div className="max-w-3xl mx-auto bg-white p-8 shadow-md print:p-0">
@@ -19,7 +19,13 @@ const CV: React.FC<{ data: Resume }> = ({ data }) => {
         {basics.profiles?.length ? (
           <div className="mt-2 text-sm">
             {basics.profiles.map((p) => (
-              <a key={p.network} href={p.url} className="mr-3 underline" target="_blank" rel="noreferrer">
+              <a
+                key={p.network}
+                href={p.url}
+                className="mr-3 underline"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {p.network}
               </a>
             ))}
@@ -41,14 +47,20 @@ const CV: React.FC<{ data: Resume }> = ({ data }) => {
             <div key={i}>
               <div className="flex justify-between items-start">
                 <div>
-                  <div className="font-semibold">{w.position} — {w.name}</div>
-                  <div className="text-sm text-gray-600">{w.startDate} — {w.endDate}</div>
+                  <div className="font-semibold">
+                    {w.position} — {w.name}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {w.startDate} — {w.endDate}
+                  </div>
                 </div>
               </div>
               {w.summary && <p className="mt-2 text-sm">{w.summary}</p>}
               {w.highlights?.length && (
                 <ul className="list-disc ml-6 mt-2 text-sm text-gray-800">
-                  {w.highlights.map((h, idx) => <li key={idx}>{h}</li>)}
+                  {w.highlights.map((h, idx) => (
+                    <li key={idx}>{h}</li>
+                  ))}
                 </ul>
               )}
             </div>
@@ -61,8 +73,12 @@ const CV: React.FC<{ data: Resume }> = ({ data }) => {
         <div className="space-y-3">
           {education.map((e, i) => (
             <div key={i}>
-              <div className="font-semibold">{e.institution} — {e.area}</div>
-              <div className="text-sm text-gray-600">{e.startDate} — {e.endDate} • {e.location}</div>
+              <div className="font-semibold">
+                {e.institution} — {e.area}
+              </div>
+              <div className="text-sm text-gray-600">
+                {e.startDate} — {e.endDate} • {e.location}
+              </div>
             </div>
           ))}
         </div>
@@ -72,7 +88,9 @@ const CV: React.FC<{ data: Resume }> = ({ data }) => {
         <SectionTitle>Skills</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {skills.map((s, i) => (
-            <div key={i} className="border rounded px-3 py-1 text-sm">{s.name}: {s.keywords?.join(', ')}</div>
+            <div key={i} className="border rounded px-3 py-1 text-sm">
+              {s.name}: {s.keywords?.join(', ')}
+            </div>
           ))}
         </div>
       </section>
@@ -81,13 +99,14 @@ const CV: React.FC<{ data: Resume }> = ({ data }) => {
         <SectionTitle>Languages</SectionTitle>
         <div className="text-sm">
           {languages.map((l, i) => (
-            <div key={i}>{l.language} — {l.fluency}</div>
+            <div key={i}>
+              {l.language} — {l.fluency}
+            </div>
           ))}
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default CV
-
+export default CV;

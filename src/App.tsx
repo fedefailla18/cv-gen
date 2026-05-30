@@ -1,64 +1,82 @@
-import React, { useState, useRef } from 'react'
-import { Resume } from './types'
-import resumeData from './resume.json'
-import { useReactToPrint } from 'react-to-print'
-import Editor from './components/Editor'
-import ThemeSelector from './components/ThemeSelector'
-import CVPreview from './components/CVPreview'
+import { useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
-const App: React.FC = () => {
-  const [resume, setResume] = useState<Resume>(resumeData as unknown as Resume)
-  const [theme, setTheme] = useState<'modern' | 'minimal' | 'compact' | 'twocolumn'>('modern')
-  const [sections, setSections] = useState<string[]>([
-    'basics',
-    'work',
-    'education',
-    'skills',
-    'languages'
-  ])
-  
-  const componentRef = useRef<HTMLDivElement>(null)
+import { CVPreview } from './components/CVPreview';
+import Editor from './components/Editor';
+import { SectionsManager } from './components/SectionsManager';
+import ThemeSelector from './components/ThemeSelector';
+import { useResumeContext } from './context/ResumeContext';
+
+type ViewMode = 'edit' | 'previewOnly';
+
+const App = () => {
+  const { resume, theme, sections, setSections } = useResumeContext();
+  const [viewMode, setViewMode] = useState<ViewMode>('edit');
+  const componentRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: `${resume.basics.name}-CV`
-  })
+    documentTitle: `${resume.basics.name}-CV`,
+  });
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-gray-800">CV Generator</h1>
-          <button 
-            onClick={handlePrint} 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition-colors"
-          >
-            Export to PDF
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setViewMode('edit')}
+              className={`px-4 py-2 rounded-lg text-sm ${
+                viewMode === 'edit' ? 'bg-gray-900 text-white' : 'bg-white text-gray-800 border'
+              }`}
+            >
+              Edit Mode
+            </button>
+            <button
+              onClick={() => setViewMode('previewOnly')}
+              className={`px-4 py-2 rounded-lg text-sm ${
+                viewMode === 'previewOnly'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-white text-gray-800 border'
+              }`}
+            >
+              Preview Only
+            </button>
+            <button
+              onClick={handlePrint}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition-colors"
+            >
+              Export to PDF
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Sidebar - Controls */}
-          <div className="lg:col-span-1 space-y-4">
-            <ThemeSelector theme={theme} setTheme={(t) => setTheme(t as typeof theme)} />
-            <Editor resume={resume} setResume={setResume} />
-          </div>
-
-          {/* Right Side - Preview */}
-          <div className="lg:col-span-2">
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h2 className="text-xl font-semibold mb-4">Preview</h2>
-              <div ref={componentRef} className="space-y-4">
-                <CVPreview 
-                  resume={resume} 
-                  sections={sections} 
-                  theme={theme}
-                  setSections={setSections}
-                />
-              </div>
+        {viewMode === 'edit' ? (
+          <div className="grid grid-cols-3 lg:grid-cols-7 gap-6">
+            <div className="lg:col-span-2 space-y-4">
+              <ThemeSelector />
+              <SectionsManager />
+            </div>
+            <div className="lg:col-span-5">
+              <Editor />
             </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+              <div className="lg:col-span-1 space-y-4 w-1/6">
+                <ThemeSelector />
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <h2 className="text-xl font-semibold mb-4 space-y-3">CV Preview</h2>
+                <div ref={componentRef}>
+                  <CVPreview />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="mt-6 text-sm text-gray-600 bg-white p-4 rounded-lg shadow">
           <p className="font-semibold mb-1">💡 Tips:</p>
@@ -71,8 +89,7 @@ const App: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
-
+export default App;
