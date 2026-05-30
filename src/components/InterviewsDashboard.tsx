@@ -2,27 +2,40 @@ import React, { useRef, useState } from 'react';
 
 import { CANDIDATES, JOBS } from '../utils/interviewData';
 
+import NotesEditor from './NotesEditor';
+
+type ViewSubMode = 'none' | 'feedback' | 'notes';
+
 const InterviewsDashboard: React.FC = () => {
   const [selectedJobId, setSelectedJobId] = useState<string>(JOBS[0].id);
-  const [revealedFeedback, setRevealedFeedback] = useState<Record<string, boolean>>({});
+  const [viewSubModes, setViewSubModes] = useState<Record<string, ViewSubMode>>({});
+  const [localCandidates, setLocalCandidates] = useState(CANDIDATES);
   const feedbackRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const filteredCandidates = CANDIDATES.filter((c) => c.job_id === selectedJobId);
+  const filteredCandidates = localCandidates.filter((c) => c.job_id === selectedJobId);
 
-  const toggleFeedback = (name: string) => {
-    setRevealedFeedback((prev) => {
-      const isNowRevealed = !prev[name];
-      
-      if (isNowRevealed) {
-        // Use timeout to allow React to render the hidden section before scrolling
+  const toggleSubMode = (name: string, mode: ViewSubMode) => {
+    setViewSubModes((prev) => {
+      const currentMode = prev[name] || 'none';
+      const newMode = currentMode === mode ? 'none' : mode;
+
+      if (newMode !== 'none') {
         setTimeout(() => {
           feedbackRefs.current[name]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
       }
-      
-      return { ...prev, [name]: isNowRevealed };
+
+      return { ...prev, [name]: newMode };
     });
   };
+
+  const handleSaveNotes = (name: string, newNotes: string) => {
+    setLocalCandidates((prev) => 
+      prev.map((c) => (c.candidate_name === name ? { ...c, rawNotes: newNotes } : c))
+    );
+    toggleSubMode(name, 'notes'); // Close editor
+  };
+
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -83,32 +96,58 @@ const InterviewsDashboard: React.FC = () => {
                     ))}
                   </div>
 
-                  <div className="flex justify-center border-t border-gray-50 pt-6">
+                  <div className="flex justify-center border-t border-gray-50 pt-6 gap-4">
                     <button
-                      onClick={() => toggleFeedback(candidate.candidate_name)}
-                      className={`px-8 py-3 rounded-full font-bold transition-all shadow-md active:scale-95 ${
-                        revealedFeedback[candidate.candidate_name]
+                      onClick={() => toggleSubMode(candidate.candidate_name, 'notes')}
+                      className={`flex-1 max-w-[240px] px-6 py-3 rounded-full font-bold transition-all shadow-md active:scale-95 border-2 ${
+                        viewSubModes[candidate.candidate_name] === 'notes'
+                          ? 'bg-blue-50 border-blue-600 text-blue-700'
+                          : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'
+                      }`}
+                    >
+                      {viewSubModes[candidate.candidate_name] === 'notes' ? 'Close Notes' : 'Edit Interview Notes'}
+                    </button>
+                    <button
+                      onClick={() => toggleSubMode(candidate.candidate_name, 'feedback')}
+                      className={`flex-1 max-w-[240px] px-6 py-3 rounded-full font-bold transition-all shadow-md active:scale-95 ${
+                        viewSubModes[candidate.candidate_name] === 'feedback'
                           ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                           : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg'
                       }`}
                     >
-                      {revealedFeedback[candidate.candidate_name] ? 'Hide Evaluation' : 'View Full Technical Feedback'}
+                      {viewSubModes[candidate.candidate_name] === 'feedback' ? 'Hide Evaluation' : 'View Technical Feedback'}
                     </button>
                   </div>
                 </div>
 
-                {revealedFeedback[candidate.candidate_name] && (
+                {viewSubModes[candidate.candidate_name] !== 'none' && (
                   <div 
                     ref={(el) => (feedbackRefs.current[candidate.candidate_name] = el)}
                     className="bg-gray-50 p-8 border-t border-blue-100 animate-in slide-in-from-top-4 duration-500"
                   >
-                    <div className="max-w-3xl mx-auto prose prose-blue prose-sm">
-                      <div className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded inline-block mb-4 uppercase tracking-widest">
-                        AI Generated Calibration
-                      </div>
-                      <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
-                        {candidate.feedback}
-                      </div>
+                    <div className="max-w-4xl mx-auto">
+                      {viewSubModes[candidate.candidate_name] === 'feedback' ? (
+                        <div className="prose prose-blue prose-sm mx-auto">
+                          <div className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded inline-block mb-4 uppercase tracking-widest">
+                            AI Generated Calibration
+                          </div>
+                          <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+                            {candidate.feedback}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Raw Interview Notes</h4>
+                            <p className="text-xs text-gray-400 italic">Changes are saved to the local session</p>
+                          </div>
+                          <NotesEditor 
+                            initialNotes={candidate.rawNotes || ''} 
+                            onSave={(notes) => handleSaveNotes(candidate.candidate_name, notes)}
+                            onCancel={() => toggleSubMode(candidate.candidate_name, 'notes')}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

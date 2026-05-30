@@ -5,7 +5,7 @@ import { CVPreview } from './components/CVPreview';
 import Editor from './components/Editor';
 import { SectionsManager } from './components/SectionsManager';
 import ThemeSelector from './components/ThemeSelector';
-import { InterviewsDashboard } from './components/InterviewsDashboard';
+import InterviewsDashboard from './components/InterviewsDashboard';
 import { useResumeContext } from './context/ResumeContext';
 import { exportToPDF } from './utils/pdfExport';
 

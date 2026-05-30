@@ -53,6 +53,7 @@ export interface CandidateNote {
   status: string;
   profile_summary?: string;
   scores?: Record<string, number | string>;
+  rawNotes?: string;
 }
 
 export interface CandidateFeedback {
