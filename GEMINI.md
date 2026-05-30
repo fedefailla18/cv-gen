@@ -76,19 +76,33 @@ This project includes a specialized **Senior Backend Engineering Interviewer** s
 
 ## Interviews Dashboard (Web UI)
 
-The application includes an **Interviews Dashboard** that provides a visual interface for managing hiring pipelines.
+The application includes an **Interviews Dashboard** that provides a visual interface for managing hiring pipelines and candidate technical evaluations.
 
-- **Dynamic Reveal Pattern:** To minimize cognitive load, the dashboard follows a "Progressive Disclosure" pattern. Technical feedback is hidden by default and revealed only when the "View Technical Feedback" action is triggered.
-- **Smooth Navigation:** Upon revealing feedback, the UI automatically smooth-scrolls to the evaluation report.
+- **Compact UI Design:** To handle high-volume candidate lists, the dashboard uses a horizontal "Compact Card" layout that summarizes core metadata (Name, Date, Status) and a Mini-Scorecard.
+- **Dynamic Reveal Pattern:** To minimize cognitive load, the dashboard follows a "Progressive Disclosure" pattern. Technical feedback and raw notes are hidden by default and revealed only on-demand.
+- **Notes Editor:** A built-in Markdown editor allows interviewers to refine raw candidate notes directly in the web app. Changes are synchronized to the local application state.
+- **Smooth Navigation:** Upon revealing feedback or opening the editor, the UI automatically smooth-scrolls to the target section.
+
+### Integration Roadmap
+
+- **Model Context Protocol (MCP):** Future support for connecting Gemini directly to Jira backlogs and Google Sheets via MCP servers, allowing for automated data ingestion.
+- **Automation Scripts:** Planned Node.js scripts to synchronize evaluation reports with team spreadsheets and project management tools.
 
 ### BDD Scenarios (Behavior-Driven Development)
 
-**Feature: Interviewee Feedback Generation**
-*As an Interviewer, I want to view interviewee data and click a button to generate feedback on the same page, so that I can review the full evaluation without navigating away or losing context.*
+**Feature: Interviewee Feedback & Notes Management**
+*As an Interviewer, I want to manage interviewee data and technical evaluations on a single page, so that I can maintain a high-quality hiring pipeline without losing context.*
 
-**Scenario: On-Demand Dynamic Reveal**
+**Scenario: On-Demand Dynamic Reveal (Feedback)**
 - **Given** I am on the Interviews Dashboard
 - **And** I have selected a specific job opening
-- **When** I click the "View Full Technical Feedback" button for a candidate
-- **Then** the AI-calibrated technical evaluation should be dynamically injected below the candidate card
+- **When** I click the "View Feedback" button for a candidate
+- **Then** the AI-calibrated technical evaluation should be dynamically injected below the candidate row
 - **And** the page should smoothly scroll to the beginning of the feedback section.
+
+**Scenario: On-Demand Dynamic Reveal (Notes Editor)**
+- **Given** I am on the Interviews Dashboard
+- **When** I click the "Edit Notes" (pencil) icon for a candidate
+- **Then** a Markdown editor should be dynamically injected below the candidate row
+- **And** the page should smoothly scroll to the editor.
+- **And** clicking "Save" should persist the changes to the local session.

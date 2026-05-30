@@ -36,125 +36,142 @@ const InterviewsDashboard: React.FC = () => {
     toggleSubMode(name, 'notes'); // Close editor
   };
 
-
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="bg-white p-6 rounded-xl shadow-md">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Job Openings</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {JOBS.map((job) => (
-            <button
-              key={job.id}
-              onClick={() => setSelectedJobId(job.id)}
-              className={`text-left p-4 rounded-lg border-2 transition-all ${
-                selectedJobId === job.id
-                  ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-100'
-                  : 'border-gray-100 hover:border-gray-200 bg-gray-50'
-              }`}
-            >
-              <div className="font-bold text-lg text-gray-900">{job.title}</div>
-              <div className="text-sm text-gray-600 mt-1">{job.department} • {job.status}</div>
-              <p className="text-xs text-gray-500 mt-2 line-clamp-2">{job.description}</p>
-            </button>
-          ))}
-        </div>
+    <div className="space-y-6 animate-in fade-in duration-500 max-w-5xl mx-auto">
+      {/* Job Selector - More Compact */}
+      <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+        {JOBS.map((job) => (
+          <button
+            key={job.id}
+            onClick={() => setSelectedJobId(job.id)}
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-all border-2 ${
+              selectedJobId === job.id
+                ? 'bg-blue-600 border-blue-600 text-white shadow-md'
+                : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200'
+            }`}
+          >
+            {job.title}
+          </button>
+        ))}
       </div>
 
-      <div className="space-y-6">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-2xl font-bold text-gray-800">Candidates</h2>
-          <span className="text-sm text-gray-500">{filteredCandidates.length} found for selected role</span>
-        </div>
-
+      <div className="space-y-3">
         {filteredCandidates.length === 0 ? (
           <div className="bg-white p-12 rounded-xl shadow text-center text-gray-500 italic">
             No candidates interviewed for this role yet.
           </div>
         ) : (
-          <div className="space-y-6">
-            {filteredCandidates.map((candidate) => (
-              <div key={candidate.candidate_name} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-2xl font-bold text-gray-900">{candidate.candidate_name}</h3>
-                      <div className="text-sm text-gray-600 mt-1">
-                        {candidate.interview_date} • Interviewed by {candidate.interviewer}
-                      </div>
-                    </div>
-                    <div className="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                      {candidate.status}
+          filteredCandidates.map((candidate) => (
+            <div key={candidate.candidate_name} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+              {/* Compact Header Row */}
+              <div className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-lg">
+                    {candidate.candidate_name.charAt(0)}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 leading-tight">{candidate.candidate_name}</h3>
+                    <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">
+                      {candidate.interview_date} • {candidate.status}
                     </div>
                   </div>
+                </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    {Object.entries(candidate.scores || {}).map(([skill, score]) => (
-                      <div key={skill} className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                        <div className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mb-1">{skill}</div>
-                        <div className="text-lg font-bold text-blue-600">{score}</div>
+                <div className="flex items-center gap-6">
+                  {/* Mini Score Summary */}
+                  <div className="hidden md:flex gap-3">
+                    {Object.entries(candidate.scores || {}).slice(0, 3).map(([skill, score]) => (
+                      <div key={skill} className="text-center px-2 border-r border-gray-100 last:border-0">
+                        <div className="text-[9px] text-gray-400 uppercase font-bold">{skill.split(' ')[0]}</div>
+                        <div className="text-sm font-bold text-blue-600">{score}</div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex justify-center border-t border-gray-50 pt-6 gap-4">
+                  <div className="flex gap-2">
                     <button
                       onClick={() => toggleSubMode(candidate.candidate_name, 'notes')}
-                      className={`flex-1 max-w-[240px] px-6 py-3 rounded-full font-bold transition-all shadow-md active:scale-95 border-2 ${
+                      className={`p-2 rounded-lg transition-all ${
                         viewSubModes[candidate.candidate_name] === 'notes'
-                          ? 'bg-blue-50 border-blue-600 text-blue-700'
-                          : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
                       }`}
+                      title="Edit Notes"
                     >
-                      {viewSubModes[candidate.candidate_name] === 'notes' ? 'Close Notes' : 'Edit Interview Notes'}
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                        <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+                      </svg>
                     </button>
                     <button
                       onClick={() => toggleSubMode(candidate.candidate_name, 'feedback')}
-                      className={`flex-1 max-w-[240px] px-6 py-3 rounded-full font-bold transition-all shadow-md active:scale-95 ${
+                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
                         viewSubModes[candidate.candidate_name] === 'feedback'
-                          ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                          : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg'
+                          ? 'bg-gray-800 text-white'
+                          : 'bg-blue-600 text-white hover:bg-blue-700'
                       }`}
                     >
-                      {viewSubModes[candidate.candidate_name] === 'feedback' ? 'Hide Evaluation' : 'View Technical Feedback'}
+                      {viewSubModes[candidate.candidate_name] === 'feedback' ? 'Hide Feedback' : 'View Feedback'}
                     </button>
                   </div>
                 </div>
-
-                {viewSubModes[candidate.candidate_name] !== 'none' && (
-                  <div 
-                    ref={(el) => (feedbackRefs.current[candidate.candidate_name] = el)}
-                    className="bg-gray-50 p-8 border-t border-blue-100 animate-in slide-in-from-top-4 duration-500"
-                  >
-                    <div className="max-w-4xl mx-auto">
-                      {viewSubModes[candidate.candidate_name] === 'feedback' ? (
-                        <div className="prose prose-blue prose-sm mx-auto">
-                          <div className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded inline-block mb-4 uppercase tracking-widest">
-                            AI Generated Calibration
-                          </div>
-                          <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
-                            {candidate.feedback}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Raw Interview Notes</h4>
-                            <p className="text-xs text-gray-400 italic">Changes are saved to the local session</p>
-                          </div>
-                          <NotesEditor 
-                            initialNotes={candidate.rawNotes || ''} 
-                            onSave={(notes) => handleSaveNotes(candidate.candidate_name, notes)}
-                            onCancel={() => toggleSubMode(candidate.candidate_name, 'notes')}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
-            ))}
-          </div>
+
+              {/* Reveal Section (Expanded) */}
+              {viewSubModes[candidate.candidate_name] !== 'none' && (
+                <div 
+                  ref={(el) => (feedbackRefs.current[candidate.candidate_name] = el)}
+                  className="bg-gray-50 border-t border-gray-100 p-6 animate-in slide-in-from-top-2 duration-300"
+                >
+                  {viewSubModes[candidate.candidate_name] === 'feedback' ? (
+                    <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-100 prose prose-blue prose-sm">
+                      <div className="bg-blue-600 text-white text-[9px] font-bold px-2 py-0.5 rounded inline-block mb-6 uppercase tracking-widest">
+                        Technical Calibration Report
+                      </div>
+                      <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+                        {candidate.feedback}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="max-w-4xl mx-auto space-y-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Raw Interview Data Editor</h4>
+                      </div>
+                      <NotesEditor 
+                        initialNotes={candidate.rawNotes || ''} 
+                        onSave={(notes) => handleSaveNotes(candidate.candidate_name, notes)}
+                        onCancel={() => toggleSubMode(candidate.candidate_name, 'notes')}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))
         )}
+      </div>
+
+      {/* Integration Roadmap - Small Footer Section */}
+      <div className="mt-12 bg-gray-900 text-white p-6 rounded-xl shadow-lg border border-gray-800">
+        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <span className="text-blue-400">⚡</span> Integration Roadmap
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div className="space-y-2">
+            <h4 className="font-bold text-blue-300">Model Context Protocol (MCP)</h4>
+            <p className="text-gray-400 text-xs leading-relaxed">
+              Connect Gemini directly to your Jira backlog and Google Sheets. 
+              The AI will automatically ingest rows and update these candidate files in real-time.
+            </p>
+          </div>
+          <div className="space-y-2">
+            <h4 className="font-bold text-blue-300">Sync Scripts</h4>
+            <p className="text-gray-400 text-xs leading-relaxed">
+              Automated Node.js scripts to push evaluation reports to Jira tickets 
+              and pull latest technical scores from team spreadsheets.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
