@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useResumeContext } from '../context/ResumeContext';
 import { Resume } from '../types';
+import { saveFile } from '../utils/persistence';
 
 const Editor = () => {
   const { resume, setResume } = useResumeContext();
@@ -76,7 +77,7 @@ const Editor = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (hasError) {
       showToast('error', 'Cannot save: JSON has errors.');
       return;
@@ -85,10 +86,17 @@ const Editor = () => {
       showToast('error', 'No changes to save.');
       return;
     }
-    setResume(pendingResume);
-    lastSavedResumeRef.current = JSON.stringify(pendingResume);
-    setHasChanges(false);
-    showToast('success', 'CV saved successfully.');
+
+    const result = await saveFile('src/resume.json', JSON.stringify(pendingResume, null, 2));
+
+    if (result.success) {
+      setResume(pendingResume);
+      lastSavedResumeRef.current = JSON.stringify(pendingResume);
+      setHasChanges(false);
+      showToast('success', 'CV saved successfully to disk.');
+    } else {
+      showToast('error', `Failed to save to disk: ${result.error}`);
+    }
   };
 
   const handleCancel = () => {

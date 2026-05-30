@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import { CANDIDATES, JOBS } from '../utils/interviewData';
+import { saveFile } from '../utils/persistence';
 
 import NotesEditor from './NotesEditor';
 
@@ -29,11 +30,21 @@ const InterviewsDashboard: React.FC = () => {
     });
   };
 
-  const handleSaveNotes = (name: string, newNotes: string) => {
-    setLocalCandidates((prev) => 
-      prev.map((c) => (c.candidate_name === name ? { ...c, rawNotes: newNotes } : c))
-    );
-    toggleSubMode(name, 'notes'); // Close editor
+  const handleSaveNotes = async (name: string, newNotes: string) => {
+    // Generate the path based on the candidate name
+    const candidatePath = `interviews/candidates/${name.toLowerCase()}/notes.md`;
+    
+    const result = await saveFile(candidatePath, newNotes);
+
+    if (result.success) {
+      setLocalCandidates((prev) => 
+        prev.map((c) => (c.candidate_name === name ? { ...c, rawNotes: newNotes } : c))
+      );
+      toggleSubMode(name, 'notes'); // Close editor
+    } else {
+      console.error('Failed to save notes to disk:', result.error);
+      alert(`Error saving to disk: ${result.error}`);
+    }
   };
 
   return (
