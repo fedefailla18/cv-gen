@@ -18,11 +18,13 @@ writing clean, maintainable code and contributing to team growth while deliverin
 learner focused on delivering high-quality backend systems.  
 
 # HR Context
-
+Senior Software Engineer with more than 9 years of experience, primarily focused on Java and Kotlin development.
+He has been working with JVM-based technologies since 2017 and has strong experience in backend development, microservices architecture, and distributed systems. Since 2019, he has been consistently working with microservices-based environments using Spring Boot, Kubernetes, Docker, and AWS.
+Currently based in Belgrade, Alex is working at Orion Innovation (formerly Mera), where he has participated in multiple projects and domains including telecom, fintech, embedded systems, point-of-sale systems, and analytics platforms.
 
 # Technical Assessment
 
 ## General Notes
-
+He seems really comfortable talking and explaining low level functionalities of java and spring. He even gets exited when talking about it. Sometimes nervousness or something like that gave him a bit of a trouble when trying to dig into some not concrete pavement lets say. Despite that he seems a good hands-on experienced java developer.
 
 ## Scoring (0-4)
