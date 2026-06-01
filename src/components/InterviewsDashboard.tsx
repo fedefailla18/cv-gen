@@ -271,7 +271,9 @@ const InterviewsDashboard: React.FC = () => {
             </div>
           ))
         )}
-      </div>
+        </div>
+        </>
+      )}
 
       {/* Integration Roadmap - Small Footer Section */}
       <div className="mt-12 bg-gray-900 text-white p-6 rounded-xl shadow-lg border border-gray-800">
