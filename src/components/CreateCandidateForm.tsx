@@ -55,16 +55,17 @@ const CreateCandidateForm: React.FC<CreateCandidateFormProps> = ({ jobs, onSubmi
   };
 
   const handleImportCsv = () => {
-    const { scores } = parseEvaluationCsv(csvInput);
-    if (Object.keys(scores).length > 0) {
+    const { scores, notes } = parseEvaluationCsv(csvInput);
+    if (Object.keys(scores).length > 0 || notes.length > 0) {
       setFormData({
         ...formData,
-        scores: { ...formData.scores, ...scores }
+        scores: { ...formData.scores, ...scores },
+        technical_summary: formData.technical_summary + (notes.length > 0 ? '\n\n' + notes.join('\n') : '')
       });
       setShowCsvImporter(false);
       setCsvInput('');
     } else {
-      alert('No valid score data found in the CSV. Please ensure you copied the rows from the evaluation sheet correctly.');
+      alert('No valid score data found. Please ensure you copied the rows from the evaluation sheet correctly.');
     }
   };
 

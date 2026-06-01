@@ -29,24 +29,30 @@ const NotesEditor: React.FC<NotesEditorProps> = ({ initialNotes, onSave, onCance
   };
 
   const handleImportCsv = () => {
-    const { scores } = parseEvaluationCsv(csvInput);
-    if (Object.keys(scores).length > 0) {
+    const { scores, notes: csvNotes } = parseEvaluationCsv(csvInput);
+    if (Object.keys(scores).length > 0 || csvNotes.length > 0) {
       const scoresMarkdown = Object.entries(scores)
         .map(([skill, score]) => `- **${skill}:** ${score}`)
         .join('\n');
       
+      const commentsMarkdown = csvNotes.length > 0 
+        ? '\n\n### Technical Comments\n' + csvNotes.join('\n')
+        : '';
+      
+      const importedContent = scoresMarkdown + commentsMarkdown;
+      
       // Append to the technical assessment section if it exists, or just to the end
       if (notes.includes('## Scoring (0-4)')) {
-        setNotes(prev => prev.replace('## Scoring (0-4)', `## Scoring (0-4)\n${scoresMarkdown}`));
+        setNotes(prev => prev.replace('## Scoring (0-4)', `## Scoring (0-4)\n${importedContent}`));
       } else {
-        setNotes(prev => `${prev}\n\n# Technical Assessment\n\n## Scoring (0-4)\n${scoresMarkdown}`);
+        setNotes(prev => `${prev}\n\n# Technical Assessment\n\n## Scoring (0-4)\n${importedContent}`);
       }
       
       setHasChanges(true);
       setShowImporter(false);
       setCsvInput('');
     } else {
-      alert('No valid score data found in the CSV.');
+      alert('No valid score data found.');
     }
   };
 

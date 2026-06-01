@@ -1,42 +1,74 @@
 /**
- * Utility to parse the specific CSV format from the Google Sheets Evaluation Form.
+ * Utility to parse the specific format copied from Google Sheets or standard CSV.
+ * Handles both Tab-Separated Values (common in copy-paste) and Comma-Separated Values.
  */
 export interface ParsedCsvData {
   scores: Record<string, number>;
-  comments: string;
+  notes: string[]; // List of skill + comment strings
 }
 
-export function parseEvaluationCsv(csvText: string): ParsedCsvData {
-  const lines = csvText.split('\n');
+export function parseEvaluationCsv(rawText: string): ParsedCsvData {
+  // Normalize line endings and split
+  const lines = rawText.split(/\r?\n/);
   const scores: Record<string, number> = {};
-  let comments = '';
+  const notes: string[] = [];
+
+  // Determine delimiter: prefer Tab if present, otherwise Comma
+  const hasTabs = rawText.includes('\t');
+  const delimiter = hasTabs ? '\t' : ',';
 
   lines.forEach((line) => {
-    // Basic regex to handle quoted CSV fields
-    // This matches: "Skill Name",Score,Percentage,Comments
-    const match = line.match(/^"?(.*?)"?,\s*([\d.]+),/);
-    
-    if (match) {
-      const skill = match[1].trim();
-      const score = parseFloat(match[2]);
+    if (!line.trim()) return;
+
+    // Split line by delimiter. 
+    // If it's CSV, handle basic quotes, but for TSV (Google Sheets copy), it's straightforward.
+    let parts: string[] = [];
+    if (delimiter === '\t') {
+      parts = line.split('\t');
+    } else {
+      // Basic CSV split (doesn't handle complex escaped commas, but sufficient for this sheet)
+      parts = line.split(',').map(p => p.replace(/^"|"$/g, '').trim());
+    }
+
+    if (parts.length < 2) return;
+
+    const rawSkill = parts[0].trim().replace(/^"|"$/g, '').trim();
+    const rawScore = parts[1]?.trim();
+    const rawComment = parts[parts.length - 1]?.trim(); // Usually the last column
+
+    // Helper to clean up skill names
+    const cleanSkill = (skill: string) => {
+      return skill
+        .replace(/Experience in development processes \(.*?\)/i, 'Agile/Process')
+        .replace(/Level of English.*/i, 'English Level')
+        .replace(/What is JVM, JRE, JDK.*/i, 'JVM/Memory')
+        .replace(/How is memory organized.*/i, 'Memory Organization')
+        .replace(/AI role in his daily basis.*/i, 'AI/Workflow')
+        .replace(/Walk me through your current project.*/i, 'System Walkthrough')
+        .split('\n')[0]
+        .substring(0, 40)
+        .trim();
+    };
+
+    // Try to find the score. Sometimes it's in part[1] or part[2] depending on empty columns
+    let score = parseFloat(rawScore);
+    if (isNaN(score) && parts[2]) {
+      score = parseFloat(parts[2].trim());
+    }
+
+    if (!isNaN(score) && rawSkill.length > 5 && !rawSkill.toLowerCase().includes('score')) {
+      const skillName = cleanSkill(rawSkill);
+      scores[skillName] = score;
       
-      // Ignore section headers like "Professional Experience" or "Java" 
-      // which usually don't have a numeric score in the second column in the raw sheet
-      // but the user's CSV shows 3, 100% etc.
-      
-      if (!isNaN(score) && skill.length > 3) {
-        // Clean up common long skill names
-        const cleanSkill = skill
-          .replace(/Experience in development processes \(.*?\)/i, 'Agile/Process')
-          .replace(/Level of English.*/i, 'English Level')
-          .replace(/What is JVM, JRE, JDK.*/i, 'JVM/Memory')
-          .split('\n')[0] // Take only the first line if multi-line
-          .substring(0, 30); // Cap length
-          
-        scores[cleanSkill] = score;
+      // If there's a comment and it's not a percentage or empty
+      if (rawComment && rawComment.length > 2 && !rawComment.includes('%') && rawComment !== rawScore) {
+        notes.push(`- **${skillName}:** ${rawComment}`);
       }
+    } else if (rawSkill.length > 5 && rawComment && rawComment.length > 10 && !rawComment.includes('%')) {
+      // Even if no score, if there's a significant comment, capture it as a note
+      notes.push(`- **${cleanSkill(rawSkill)}:** ${rawComment}`);
     }
   });
 
-  return { scores, comments };
+  return { scores, notes };
 }
