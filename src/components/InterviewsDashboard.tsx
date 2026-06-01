@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { CANDIDATES, generateCandidateMarkdown, generateJobMarkdown, JOBS } from '../utils/interviewData';
+import {  generateCandidateMarkdown, generateJobMarkdown, JOBS } from '../utils/interviewData';
 import { saveFile } from '../utils/persistence';
 
 import CreateCandidateForm from './CreateCandidateForm';
 import NotesEditor from './NotesEditor';
+import { InterviewJob } from '../types';
 
 type ViewSubMode = 'none' | 'feedback' | 'notes';
 
@@ -230,7 +231,7 @@ const InterviewsDashboard: React.FC = () => {
               </div>
 
               {/* Reveal Section (Expanded) */}
-              {viewSubModes[candidate.candidate_name] !== 'none' && (
+              {(viewSubModes[candidate.candidate_name] === 'feedback' || viewSubModes[candidate.candidate_name] === 'notes') && (
                 <div 
                   ref={(el) => (feedbackRefs.current[candidate.candidate_name] = el)}
                   className="bg-gray-50 border-t border-gray-100 p-6 animate-in slide-in-from-top-2 duration-300"
