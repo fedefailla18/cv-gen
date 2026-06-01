@@ -37,7 +37,9 @@ const InterviewsDashboard: React.FC = () => {
     fetchData();
   }, []);
 
-  const filteredCandidates = localCandidates.filter((c) => c.job_id === selectedJobId);
+  const filteredCandidates = localCandidates
+    .filter((c) => c.job_id === selectedJobId)
+    .sort((a, b) => new Date(b.interview_date).getTime() - new Date(a.interview_date).getTime());
 
   const toggleSubMode = (name: string, mode: ViewSubMode) => {
     setViewSubModes((prev) => {
