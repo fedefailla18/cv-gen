@@ -58,15 +58,41 @@ const InterviewsDashboard: React.FC = () => {
   };
 
   const handleSaveNotes = async (name: string, newNotes: string) => {
-    // Generate the path based on the candidate name
+    const candidate = localCandidates.find(c => c.candidate_name === name);
+    if (!candidate) return;
+
+    // 1. Reconstruct the YAML frontmatter to prevent it from being removed
+    const header = `---
+candidate_name: ${candidate.candidate_name}
+interview_date: ${candidate.interview_date}
+interviewer: ${candidate.interviewer || 'Federico'}
+role: ${candidate.role}
+job_id: ${candidate.job_id}
+status: ${candidate.status}
+---
+
+`;
+    const fullContent = header + newNotes.trim();
+
+    // 2. Generate path and save
     const slug = name.toLowerCase().replace(/\s+/g, '-');
     const candidatePath = `interviews/candidates/${slug}/notes.md`;
     
-    const result = await saveFile(candidatePath, newNotes);
+    const result = await saveFile(candidatePath, fullContent);
 
     if (result.success) {
+      // 3. Re-parse scores from the new notes to update UI scorecards immediately
+      const newScores: Record<string, number> = {};
+      const scoreMatches = newNotes.match(/- \*\*([\s\S]*?):\*\* ([\d.]+)/g);
+      if (scoreMatches) {
+        scoreMatches.forEach(m => {
+          const match = m.match(/- \*\*([\s\S]*?):\*\* ([\d.]+)/);
+          if (match) newScores[match[1]] = parseFloat(match[2]);
+        });
+      }
+
       setLocalCandidates((prev) => 
-        prev.map((c) => (c.candidate_name === name ? { ...c, rawNotes: newNotes } : c))
+        prev.map((c) => (c.candidate_name === name ? { ...c, rawNotes: newNotes, scores: newScores } : c))
       );
       toggleSubMode(name, 'notes'); // Close editor
     } else {
