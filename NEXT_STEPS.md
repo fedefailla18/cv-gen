@@ -1,45 +1,36 @@
 # Project State & Integration Roadmap
 
-## Current State: Interview Feedback System
-The `feature/interview-feedback-system` branch is fully operational and documented. The project has evolved from a simple CV Generator into a **Technical Calibration Workspace**.
+## Current State: Technical Calibration Hub
+The project has successfully transitioned from a simple CV Generator into a full-featured **Interview Management System** with local disk persistence.
 
 ### 1. Core Capabilities
-- **Expert AI Calibration:** A specialized skill (`.gemini/skills/senior-interviewer/`) that evaluates candidates against high-level production standards (JVM, Distributed Systems, Concurrency).
-- **Standardized Storage:** A file-based database in `interviews/` with YAML frontmatter, ensuring all data is machine-readable and ready for future integration.
-- **Modern Dashboard:** A React-based UI in the "Interviews" tab featuring:
-    - **Compact Mode:** High-density list for browsing many candidates.
-    - **Notes Editor:** Real-time Markdown editing of raw interview data.
-    - **Progressive Disclosure:** On-demand reveal of technical feedback with smooth-scrolling.
+- **Expert AI Calibration:** Specialized persona for high-standard backend engineering evaluation.
+- **Full Data Persistence:** Every change (CVs, Notes, Jobs) is saved directly to the file system via the Vite Dev Server API.
+- **Automated Workflow:**
+    - **Creation Hub:** Add candidates and jobs directly from the UI.
+    - **Smart CSV Importer:** Copy rows from the Google Sheet Evaluation form and paste them into the app to instantly populate technical scores.
+- **Modern Dashboard:** Compact, high-density UI with progressive disclosure and smooth navigation.
 
 ### 2. Documentation
-- **`GEMINI.md`**: Updated with technical architecture, BDD scenarios, and usage workflows.
-- **`interviews/README.md`**: Detailed guide on how to add candidates and jobs manually.
+- **`GEMINI.md`**: Technical architecture, BDD scenarios, and feature overview.
+- **`interviews/README.md`**: Guide for candidate and job data management.
 
 ---
 
 ## Roadmap: What's Next?
 
-### Phase 1: External Integration (The "Connector" Phase)
-The goal is to eliminate manual copy-pasting between Google Sheets, Jira, and this app.
+### Phase 1: External Automation (MCP)
+1.  **Google Sheets MCP:** Connect Gemini to the "Java Evaluation Form" spreadsheet to automate the initial data ingestion.
+2.  **Jira MCP:** Pull requirements directly from tickets and post calibration reports as comments.
 
-1.  **Model Context Protocol (MCP) Integration:**
-    - **Google Sheets MCP:** Connect Gemini to your "Java Evaluation Form" spreadsheet.
-    - **Jira MCP:** Connect Gemini to your team's Jira project to pull job descriptions and push feedback reports as comments.
-2.  **Automation Scripts:**
-    - Create `scripts/sync-sheets.ts` to pull new interview rows and automatically generate `interviews/candidates/<name>/notes.md`.
-    - Create `scripts/push-to-jira.ts` to upload the final `feedback.md` to specific Jira tickets.
-
-### Phase 2: UI & UX Enhancements
-1.  **Advanced Filtering:** Filter candidates by Job ID, Status, or Average Score.
-2.  **Markdown Preview:** Add a toggle in the Notes Editor to see a rendered preview of the Markdown while editing.
-3.  **Export Dashboard:** Capability to export the entire "Candidate Card" (Scores + Feedback) as a single PDF for sharing with clients.
-
-### Phase 3: Dynamic Data Layer
-- Transition from the mock `interviewData.ts` to a dynamic data loader that reads the `interviews/` folder directly (using Vite's `import.meta.glob`).
+### Phase 2: Advanced Dashboard
+1.  **Search & Filter:** Real-time search by name and filtering by score thresholds or status.
+2.  **Multi-Candidate Comparison:** A "Compare" mode to see technical scores of 2-3 candidates side-by-side.
+3.  **Client-Ready Export:** Export the entire calibration summary as a professional PDF for sharing with hiring managers.
 
 ---
 
 ## Next Steps for the User
-1.  **Review `GEMINI.md`**: Ensure the BDD scenarios match your expectations.
-2.  **Test the Dashboard**: Verify that the "Notes Editor" and "Feedback Reveal" work smoothly with your latest candidates (Ruben, Dardo, Greti).
-3.  **Integration Prep**: If you want to start Phase 1 (MCP), let me know which tool (Jira or Google Sheets) is the priority.
+1.  **Try the CSV Importer:** Open the "Add Candidate" form, copy some rows from your Google Sheet, and use the ⚡ button to see it in action.
+2.  **Verify Disk Persistence:** Edit a note, refresh the page, and check the file in your `interviews/` folder.
+3.  **Select Integration Priority:** Are we focusing on **Jira** or **Google Sheets** for the next automation step?

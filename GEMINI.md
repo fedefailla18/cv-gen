@@ -81,6 +81,7 @@ The application includes an **Interviews Dashboard** that provides a visual inte
 - **Compact UI Design:** To handle high-volume candidate lists, the dashboard uses a horizontal "Compact Card" layout that summarizes core metadata (Name, Date, Status) and a Mini-Scorecard.
 - **Dynamic Reveal Pattern:** To minimize cognitive load, the dashboard follows a "Progressive Disclosure" pattern. Technical feedback and raw notes are hidden by default and revealed only on-demand.
 - **Notes Editor:** A built-in Markdown editor allows interviewers to refine raw candidate notes directly in the web app. Changes are synchronized to the local application state.
+- **Smart CSV Importer:** Both the candidate creation form and the notes editor include a "Smart CSV Importer" that parses raw rows from the Google Sheet evaluation form and automatically populates technical scores.
 - **Smooth Navigation:** Upon revealing feedback or opening the editor, the UI automatically smooth-scrolls to the target section.
 
 ### Integration Roadmap
