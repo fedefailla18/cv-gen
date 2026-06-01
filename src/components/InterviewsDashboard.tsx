@@ -9,12 +9,33 @@ import NotesEditor from './NotesEditor';
 type ViewSubMode = 'none' | 'feedback' | 'notes';
 
 const InterviewsDashboard: React.FC = () => {
-  const [selectedJobId, setSelectedJobId] = useState<string>(JOBS[0].id);
+  const [localJobs, setLocalJobs] = useState<InterviewJob[]>([]);
+  const [localCandidates, setLocalCandidates] = useState<any[]>([]);
+  const [selectedJobId, setSelectedJobId] = useState<string>('');
   const [viewSubModes, setViewSubModes] = useState<Record<string, ViewSubMode>>({});
-  const [localCandidates, setLocalCandidates] = useState(CANDIDATES);
-  const [localJobs, setLocalJobs] = useState(JOBS);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const feedbackRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // 1. Fetch dynamic data on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/data');
+        if (response.ok) {
+          const { jobs, candidates } = await response.json();
+          setLocalJobs(jobs);
+          setLocalCandidates(candidates);
+          if (jobs.length > 0) setSelectedJobId(jobs[0].id);
+        }
+      } catch (error) {
+        console.error('Failed to load data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const filteredCandidates = localCandidates.filter((c) => c.job_id === selectedJobId);
 
@@ -115,39 +136,43 @@ const InterviewsDashboard: React.FC = () => {
         </button>
       </div>
 
-      {showAddForm && (
-        <CreateCandidateForm 
-          jobs={localJobs} 
-          onSubmit={handleCreateCandidate} 
-          onCancel={() => setShowAddForm(false)} 
-        />
-      )}
+      {isLoading ? (
+        <div className="text-center py-20 text-gray-400 italic animate-pulse">Loading dynamic records...</div>
+      ) : (
+        <>
+          {showAddForm && (
+            <CreateCandidateForm 
+              jobs={localJobs} 
+              onSubmit={handleCreateCandidate} 
+              onCancel={() => setShowAddForm(false)} 
+            />
+          )}
 
-      {/* Job Selector - More Compact */}
-      <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-        {localJobs.map((job) => (
-          <button
-            key={job.id}
-            onClick={() => setSelectedJobId(job.id)}
-            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all border-2 ${
-              selectedJobId === job.id
-                ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                : 'bg-white border-gray-100 text-gray-400 hover:border-gray-200'
-            }`}
-          >
-            {job.title}
-          </button>
-        ))}
-      </div>
-
-      <div className="space-y-3">
-        {filteredCandidates.length === 0 ? (
-          <div className="bg-white p-12 rounded-xl shadow text-center text-gray-500 italic">
-            No candidates interviewed for this role yet.
+          {/* Job Selector - More Compact */}
+          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+            {localJobs.map((job) => (
+              <button
+                key={job.id}
+                onClick={() => setSelectedJobId(job.id)}
+                className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all border-2 ${
+                  selectedJobId === job.id
+                    ? 'bg-blue-600 border-blue-600 text-white shadow-md'
+                    : 'bg-white border-gray-100 text-gray-400 hover:border-gray-200'
+                }`}
+              >
+                {job.title}
+              </button>
+            ))}
           </div>
-        ) : (
-          filteredCandidates.map((candidate) => (
-            <div key={candidate.candidate_name} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-all">
+
+          <div className="space-y-3">
+            {filteredCandidates.length === 0 ? (
+              <div className="bg-white p-12 rounded-xl shadow text-center text-gray-500 italic border border-dashed border-gray-200">
+                No candidates found for this role.
+              </div>
+            ) : (
+              filteredCandidates.map((candidate) => (
+                <div key={candidate.candidate_name} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-all">
               {/* Compact Header Row */}
               <div className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
