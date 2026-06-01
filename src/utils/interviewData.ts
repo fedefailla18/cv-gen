@@ -1,4 +1,52 @@
-import { CandidateNote, InterviewJob } from '../types';
+import { CandidateNote, InterviewJob, CreateCandidateInput } from '../types';
+
+/**
+ * Generates the standardized notes.md content from form input.
+ */
+export function generateCandidateMarkdown(input: CreateCandidateInput, roleTitle: string): string {
+  const scoresYaml = Object.entries(input.scores)
+    .map(([skill, score]) => `- **${skill}:** ${score}`)
+    .join('\n');
+
+  return `---
+candidate_name: ${input.candidate_name}
+interview_date: ${input.interview_date}
+interviewer: Federico
+role: ${roleTitle}
+job_id: ${input.job_id}
+status: Technical Interview Completed
+---
+
+# Candidate Profile
+${input.profile_summary}
+
+# HR Context
+${input.hr_context}
+
+# Technical Assessment
+
+## General Notes
+${input.technical_summary}
+
+## Scoring (0-4)
+${scoresYaml}
+`;
+}
+
+/**
+ * Generates the standardized job description Markdown content.
+ */
+export function generateJobMarkdown(job: { title: string, department: string, description: string }): string {
+  return `---
+title: ${job.title}
+department: ${job.department}
+status: Open
+---
+
+## About the Position
+${job.description}
+`;
+}
 
 export const JOBS: InterviewJob[] = [
   {

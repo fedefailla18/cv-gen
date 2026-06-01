@@ -56,6 +56,21 @@ export interface CandidateNote {
   rawNotes?: string;
 }
 
+export interface CreateCandidateInput {
+  candidate_name: string;
+  interview_date: string;
+  job_id: string;
+  new_job?: {
+    title: string;
+    department: string;
+    description: string;
+  };
+  profile_summary: string;
+  hr_context: string;
+  technical_summary: string;
+  scores: Record<string, number | string>;
+}
+
 export interface CandidateFeedback {
   candidate_name: string;
   content: string; // Markdown content
