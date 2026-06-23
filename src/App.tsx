@@ -6,10 +6,11 @@ import Editor from './components/Editor';
 import { SectionsManager } from './components/SectionsManager';
 import ThemeSelector from './components/ThemeSelector';
 import InterviewsDashboard from './components/InterviewsDashboard';
+import KnowledgeBase from './components/KnowledgeBase';
 import { useResumeContext } from './context/ResumeContext';
 import { exportToPDF } from './utils/pdfExport';
 
-type ViewMode = 'edit' | 'previewOnly' | 'interviews';
+type ViewMode = 'edit' | 'previewOnly' | 'interviews' | 'knowledge';
 
 const App = () => {
   const { resume, theme, sections, setSections } = useResumeContext();
@@ -95,6 +96,16 @@ const App = () => {
               Interviews
             </button>
             <button
+              onClick={() => setViewMode('knowledge')}
+              className={`px-4 py-2 rounded-lg text-sm ${
+                viewMode === 'knowledge'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-white text-gray-800 border'
+              }`}
+            >
+              Knowledge
+            </button>
+            <button
               onClick={handleDownloadPDF}
               disabled={isGeneratingPDF}
               className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg shadow-md transition-colors"
@@ -134,8 +145,10 @@ const App = () => {
               </div>
             </div>
           </>
-        ) : (
+        ) : viewMode === 'interviews' ? (
           <InterviewsDashboard />
+        ) : (
+          <KnowledgeBase />
         )}
 
         <div className="mt-6 text-sm text-gray-600 bg-white p-4 rounded-lg shadow">
