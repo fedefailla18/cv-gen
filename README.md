@@ -1,4 +1,20 @@
-# CV Generator (Vite + React + TypeScript + Tailwind)
+# Interview Hub & CV Generator (Vite + React + TypeScript + Tailwind)
+
+A dual-purpose tool for high-standard technical interviews and interactive resume generation.
+
+## Features
+
+### 1. Interview Management System
+- **Technical Calibration Hub:** Manage your hiring pipeline with a dedicated dashboard.
+- **AI-Generated Feedback:** Integrated with a specialized "Senior Backend Interviewer" persona for calibrated evaluation.
+- **Smart CSV Importer:** Quickly ingest scores and notes from Google Sheets evaluation forms.
+- **Local Persistence:** All data (candidates, jobs, notes) is saved directly to your local `interviews/` directory.
+
+### 2. Interactive CV Generator
+- **Real-time Preview:** Edit your `src/resume.json` or use the built-in editor to see changes instantly.
+- **Theme Selection:** Choose from multiple professional themes (Modern, Minimal, Compact, Two-Column).
+- **Drag-and-Drop:** Reorder CV sections with ease.
+- **PDF Export:** High-quality PDF generation with proper pagination.
 
 ## Setup
 
@@ -16,13 +32,15 @@ npm run dev
 
 3. Open http://localhost:5173
 
-4. Edit `src/resume.json` to update your CV. The app will read that file and render the CV.
+- Use the **"Interviews"** tab for technical evaluations.
+- Use the **"Edit Mode"** or **"Preview Only"** tabs for resume management.
 
-5. Click **Export to PDF** to print or save a PDF version.
+## Workflow: Technical Interviews
 
-## Notes
-- This scaffold uses Tailwind for quick styling — change classes in `src/components/CV.tsx` to customize.
-- If you prefer `jspdf` or `html2pdf` for heavier PDF control (page breaks, headers), I can add it.
+1. **Add Candidate:** Use the Interviews Dashboard to create a new candidate record.
+2. **Import Scores:** Copy rows from your evaluation spreadsheet and use the ⚡ button to instantly populate scores.
+3. **Calibrate:** Use the specialized AI skill to generate a technical feedback report based on the candidate's notes.
+4. **Refine:** Edit notes directly in the app to capture nuances from the interview.
 
 ## Linting & Formatting
 

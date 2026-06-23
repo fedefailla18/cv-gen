@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import {  generateCandidateMarkdown, generateJobMarkdown, JOBS } from '../utils/interviewData';
+import {  generateCandidateMarkdown, generateJobMarkdown } from '../utils/interviewData';
 import { saveFile } from '../utils/persistence';
 
 import CreateCandidateForm from './CreateCandidateForm';
 import NotesEditor from './NotesEditor';
+import FeedbackEditor from './FeedbackEditor';
 import { InterviewJob } from '../types';
 
-type ViewSubMode = 'none' | 'feedback' | 'notes';
+type ViewSubMode = 'none' | 'feedback' | 'notes' | 'edit-feedback';
 
 const InterviewsDashboard: React.FC = () => {
   const [localJobs, setLocalJobs] = useState<InterviewJob[]>([]);
@@ -97,6 +98,26 @@ status: ${candidate.status}
       toggleSubMode(name, 'notes'); // Close editor
     } else {
       console.error('Failed to save notes to disk:', result.error);
+      alert(`Error saving to disk: ${result.error}`);
+    }
+  };
+
+  const handleSaveFeedback = async (name: string, newFeedback: string) => {
+    const candidate = localCandidates.find(c => c.candidate_name === name);
+    if (!candidate) return;
+
+    const slug = name.toLowerCase().replace(/\s+/g, '-');
+    const feedbackPath = `interviews/candidates/${slug}/feedback.md`;
+    
+    const result = await saveFile(feedbackPath, newFeedback.trim());
+
+    if (result.success) {
+      setLocalCandidates((prev) => 
+        prev.map((c) => (c.candidate_name === name ? { ...c, feedback: newFeedback } : c))
+      );
+      setViewSubModes((prev) => ({ ...prev, [name]: 'feedback' }));
+    } else {
+      console.error('Failed to save feedback to disk:', result.error);
       alert(`Error saving to disk: ${result.error}`);
     }
   };
@@ -257,28 +278,56 @@ status: ${candidate.status}
               </div>
 
               {/* Reveal Section (Expanded) */}
-              {(viewSubModes[candidate.candidate_name] === 'feedback' || viewSubModes[candidate.candidate_name] === 'notes') && (
+              {(viewSubModes[candidate.candidate_name] && viewSubModes[candidate.candidate_name] !== 'none') && (
                 <div 
                   ref={(el) => (feedbackRefs.current[candidate.candidate_name] = el)}
                   className="bg-gray-50 border-t border-gray-100 p-6 animate-in slide-in-from-top-2 duration-300"
                 >
                   {viewSubModes[candidate.candidate_name] === 'feedback' ? (
-                    <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-100 prose prose-blue prose-sm">
-                      <div className="bg-blue-600 text-white text-[9px] font-bold px-2 py-0.5 rounded inline-block mb-6 uppercase tracking-widest">
-                        Technical Calibration Report
+                    <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-100 prose prose-blue prose-sm relative group">
+                      <div className="flex justify-between items-start mb-6">
+                        <div className="bg-blue-600 text-white text-[9px] font-bold px-2 py-0.5 rounded inline-block uppercase tracking-widest">
+                          Technical Calibration Report
+                        </div>
+                        <button
+                          onClick={() => setViewSubModes(prev => ({ ...prev, [candidate.candidate_name]: 'edit-feedback' }))}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 bg-gray-100 text-gray-500 rounded hover:bg-blue-100 hover:text-blue-600"
+                          title="Edit Feedback"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                          </svg>
+                        </button>
                       </div>
+
                       {candidate.feedback ? (
                         <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
                           {candidate.feedback}
                         </div>
                       ) : (
                         <div className="text-center py-10 space-y-4">
-                          <p className="text-gray-500 italic">No feedback generated yet. Use the CLI to process the notes first.</p>
-                          <div className="text-xs bg-gray-50 p-4 rounded border border-dashed border-gray-300 font-mono text-gray-600">
-                            gemini: "Generate feedback for interviews/candidates/{candidate.candidate_name.toLowerCase().replace(/\s+/g, '-')}/notes.md"
+                          <p className="text-gray-500 italic">No feedback generated yet. Use the CLI or add it manually.</p>
+                          <div className="flex flex-col gap-3 items-center">
+                            <button
+                              onClick={() => setViewSubModes(prev => ({ ...prev, [candidate.candidate_name]: 'edit-feedback' }))}
+                              className="px-6 py-2 bg-white border border-blue-200 text-blue-600 rounded-lg text-xs font-bold hover:bg-blue-50 transition-colors shadow-sm"
+                            >
+                              + Add Manual Feedback
+                            </button>
+                            <div className="text-[10px] bg-gray-50 p-4 rounded border border-dashed border-gray-300 font-mono text-gray-600 max-w-md">
+                              gemini: &quot;Generate feedback for interviews/candidates/{candidate.candidate_name.toLowerCase().replace(/\s+/g, '-')}/notes.md&quot;
+                            </div>
                           </div>
                         </div>
                       )}
+                    </div>
+                  ) : viewSubModes[candidate.candidate_name] === 'edit-feedback' ? (
+                    <div className="max-w-3xl mx-auto">
+                      <FeedbackEditor 
+                        initialFeedback={candidate.feedback || ''}
+                        onSave={(fb) => handleSaveFeedback(candidate.candidate_name, fb)}
+                        onCancel={() => setViewSubModes(prev => ({ ...prev, [candidate.candidate_name]: 'feedback' }))}
+                      />
                     </div>
                   ) : (
                     <div className="max-w-4xl mx-auto space-y-4">
