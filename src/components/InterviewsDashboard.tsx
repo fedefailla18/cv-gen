@@ -243,7 +243,7 @@ status: ${candidate.status}
                     {Object.entries(candidate.scores || {}).slice(0, 4).map(([skill, score]) => (
                       <div key={skill} className="text-center px-2 border-r border-gray-100 last:border-0">
                         <div className="text-[8px] text-gray-400 uppercase font-black tracking-tighter">{skill.split(' ')[0]}</div>
-                        <div className="text-sm font-bold text-blue-600">{score}</div>
+                        <div className="text-sm font-bold text-blue-600">{String(score)}</div>
                       </div>
                     ))}
                   </div>

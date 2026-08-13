@@ -1,3 +1,10 @@
+---
+title: Claude Backend Developer
+department: Backend Engineering
+client: Internal/Client Name
+status: Open
+---
+
 Core Responsibilities
 
 Backend Development: Design, develop, and maintain high-performance backend services using Java.

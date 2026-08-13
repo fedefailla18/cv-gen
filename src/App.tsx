@@ -7,6 +7,7 @@ import { SectionsManager } from './components/SectionsManager';
 import ThemeSelector from './components/ThemeSelector';
 import InterviewsDashboard from './components/InterviewsDashboard';
 import KnowledgeBase from './components/KnowledgeBase';
+import Navbar from './components/Navbar';
 import { useResumeContext } from './context/ResumeContext';
 import { exportToPDF } from './utils/pdfExport';
 
@@ -62,65 +63,15 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">CV Generator</h1>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setViewMode('edit')}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                viewMode === 'edit' ? 'bg-gray-900 text-white' : 'bg-white text-gray-800 border'
-              }`}
-            >
-              Edit Mode
-            </button>
-            <button
-              onClick={() => setViewMode('previewOnly')}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                viewMode === 'previewOnly'
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-white text-gray-800 border'
-              }`}
-            >
-              Preview Only
-            </button>
-            <button
-              onClick={() => setViewMode('interviews')}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                viewMode === 'interviews'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-800 border'
-              }`}
-            >
-              Interviews
-            </button>
-            <button
-              onClick={() => setViewMode('knowledge')}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                viewMode === 'knowledge'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-white text-gray-800 border'
-              }`}
-            >
-              Knowledge
-            </button>
-            <button
-              onClick={handleDownloadPDF}
-              disabled={isGeneratingPDF}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg shadow-md transition-colors"
-            >
-              {isGeneratingPDF ? 'Generating...' : 'Download PDF'}
-            </button>
-            <button
-              onClick={handlePrint}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg shadow-md transition-colors"
-            >
-              Print Preview
-            </button>
-          </div>
-        </div>
-
+    <div className="min-h-screen bg-gray-100">
+      <Navbar
+        viewMode={viewMode}
+        onViewChange={setViewMode}
+        onDownloadPDF={handleDownloadPDF}
+        onPrint={handlePrint}
+        isGeneratingPDF={isGeneratingPDF}
+      />
+      <div className="container mx-auto px-4 max-w-7xl py-8">
         {viewMode === 'edit' ? (
           <div className="grid grid-cols-3 lg:grid-cols-7 gap-6">
             <div className="lg:col-span-2 space-y-4">
