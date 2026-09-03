@@ -22,32 +22,32 @@ A modern, interactive CV generator that allows users to edit their resume data i
 ### Development
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start the development server
-npm run dev
+pnpm run dev
 ```
 The application will be available at `http://localhost:5173`.
 
 ### Production
 ```bash
 # Build for production
-npm run build
+pnpm run build
 
 # Preview the production build
-npm run preview
+pnpm run preview
 ```
 
 ### Quality Assurance
 ```bash
 # Lint the codebase
-npm run lint
+pnpm run lint
 
 # Auto-fix linting issues
-npm run lint:fix
+pnpm run lint:fix
 
 # Format code using Prettier
-npm run format
+pnpm run format
 ```
 
 ## Development Conventions
@@ -66,7 +66,7 @@ npm run format
 
 This project includes a specialized **Senior Backend Engineering Interviewer** skill for generating structured interview feedback.
 
-- **Skill Definition:** Located in `.gemini/skills/senior-interviewer/SKILL.md`.
+- **Skill Definition:** Located in `.gemini/skills/senior-interviewer/SKILL.md` (mirrored for Claude Code at `.claude/skills/senior-interviewer/SKILL.md`).
 - **Interviews Folder:** Use the `interviews/` directory to store candidate notes and generated reports.
 - **Activation:** The skill is automatically suggested when interview-related notes or prompts are provided. It evaluates candidates based on production maturity, architectural reasoning, and technical depth (JVM, Distributed Systems, Concurrency, etc.).
 - **Workflow:**
