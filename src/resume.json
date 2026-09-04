@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Federico Failla",
-    "label": "Senior Software Engineer · Java / Backend",
+    "label": "Software Engineer | Java | Backend",
     "image": "",
     "email": "fedefailla@hotmail.com",
     "phone": "02612593430",
     "url": "https://www.linkedin.com/in/ffailla/",
-    "summary": "Software engineer with 5+ years of experience building backend and full-stack applications with Java 8–17 and Spring Boot across banking, tax administration, gaming, and online booking domains. Recent work focuses on microservices, REST APIs, and cross-functional delivery with Product, QA and BI teams. Hands-on with application implementation and deployment using GitLab, Azure DevOps, Docker and Rancher, PostgreSQL-backed services, and React/TypeScript interfaces.",
+    "summary": "Software Engineer with 13+ years of experience in software development, with extensive experience building Java-based web applications and backend services across enterprise, financial, tax, gaming, and reservation domains. Experienced with Java 7–17, Spring/Spring Boot, REST APIs, microservices, PostgreSQL, messaging, Docker and CI/CD. In recent years, focused on designing and evolving backend services, translating business requirements into technical solutions, improving existing systems, and collaborating across Product, QA and engineering teams.",
     "location": {
       "city": "Zapala",
       "region": "Neuquén",
@@ -24,93 +24,196 @@
     {
       "name": "Distillery",
       "position": "Software Engineer",
-      "url": "",
       "startDate": "10/2021",
       "endDate": "Present",
-      "summary": "Microservices development for a nationwide U.S. online booking company using Java 8–17 and React. Cross-functional collaboration with Product, QA and BI teams on scalable backend services.",
+      "summary": "Backend and full-stack development within a microservices-based environment for a nationwide U.S. online booking and work-order platform. Collaborate with Product, QA, BI and engineering teams across the software development lifecycle, from requirements analysis and refinement through implementation, testing, deployment and production support.",
       "responsibilities": [
-        "Develop and maintain backend services within a microservices environment.",
-        "Collaborate across multiple product areas with Product, QA and BI teams.",
-        "Apply development best practices with focus on code quality and application security."
+        "Translate business requirements into technical solutions and actionable Jira stories, participating in refinement sessions and defining acceptance criteria and implementation considerations.",
+        "Design and evolve RESTful APIs and backend service integrations consumed by frontend applications and other services, considering service boundaries, contract compatibility, validation, error handling and maintainability.",
+        "Develop and maintain backend services using Java and Spring Boot within a microservices architecture.",
+        "Investigate and improve existing systems, including application behavior, persistence performance, database interactions and service integrations.",
+        "Collaborate with Product, QA and BI teams to clarify requirements, troubleshoot issues and deliver production-ready solutions.",
+        "Participate in code reviews, automated testing, CI/CD workflows and production deployments."
       ],
-      "technologies": {
-        "Backend": ["Java 17", "Spring 3.4", "Groovy Spock"],
-        "Data & Messaging": ["PostgreSQL", "RabbitMQ"],
-        "Frontend": ["React 18"],
-        "Infrastructure": ["Docker", "GitLab", "Azure DevOps"]
-      }
+      "achievements": [
+        "Contributed to the migration of backend services from Java 11 to Java 17, addressing compatibility, dependency and build/runtime changes while maintaining application behavior.",
+        "Implemented an incremental VCDB ETL process using a Dockerized MySQL environment, processing the full reference dataset and subsequent monthly changes to support automotive data integration.",
+        "Optimized backend availability functionality by investigating and addressing inefficient database access patterns, including N+1 query behavior.",
+        "Contributed to business-rule enhancements involving multiple responsible parties within repair-order workflows.",
+        "Implemented and evolved database-backed business rules for pricing and fee configuration, including entitlement-based fee exclusions.",
+        "Contributed to authentication and authorization integrations using Microsoft Entra ID and OAuth-based flows.",
+        "Improved document access and storage security by addressing access patterns around S3-hosted resources.",
+        "Contributed to the migration of application logging and observability from Kibana-based infrastructure toward CloudWatch and subsequent monitoring improvements.",
+        "Worked within a trunk-based development approach, contributing to CI/CD and continuous integration practices."
+      ],
+      "technologies": [
+        "Java 17",
+        "Spring Boot",
+        "Spring",
+        "REST APIs",
+        "Microservices",
+        "PostgreSQL",
+        "MySQL",
+        "RabbitMQ",
+        "Docker",
+        "Git",
+        "GitLab CI/CD",
+        "Azure DevOps",
+        "Groovy",
+        "Spock",
+        "JUnit",
+        "Hibernate",
+        "JPA",
+        "Liquibase",
+        "Testcontainers",
+        "React",
+        "TypeScript",
+        "Microsoft Entra ID",
+        "OAuth"
+      ],
+      "domains": [
+        "Online booking",
+        "Automotive",
+        "Work-order management"
+      ]
     },
     {
       "name": "Aconcagua Software Factory",
       "position": "Java Developer",
-      "url": "",
       "startDate": "02/2020",
       "endDate": "10/2021",
-      "summary": "Enterprise application development using Java, Spring and React, including a JHipster-based internal project and backend services for a U.S. gaming company.",
+      "summary": "Development of enterprise web applications and backend services using Java, Spring and React, working with U.S. clients in project management and gaming environments.",
+      "responsibilities": [
+        "Develop backend services and REST APIs using Java and Spring Boot.",
+        "Develop frontend functionality using React and TypeScript.",
+        "Work with relational databases and database migration tooling.",
+        "Collaborate with development teams and clients to implement business requirements."
+      ],
       "achievements": [
-        "Built a JHipster project to manage collaborators and projects.",
+        "Created a JHipster-based application for managing collaborators and projects.",
         "Developed backend services for a U.S. gaming company using Java 11 and Spring Boot."
       ],
-      "technologies": {
-        "Backend": ["Java 11", "Spring Boot", "Gradle"],
-        "Data & Messaging": ["PostgreSQL", "Redis", "RabbitMQ", "Flyway"],
-        "Frontend": ["React"],
-        "Infrastructure": ["Docker"]
-      }
+      "technologies": [
+        "Java 11",
+        "Spring Boot",
+        "Spring",
+        "React",
+        "TypeScript",
+        "PostgreSQL",
+        "Redis",
+        "RabbitMQ",
+        "Docker",
+        "Flyway",
+        "Gradle"
+      ],
+      "domains": [
+        "Enterprise applications",
+        "Gaming",
+        "Project management"
+      ]
     },
     {
       "name": "Aconcagua Software Factory",
       "position": "Java Developer",
-      "url": "",
       "startDate": "05/2017",
       "endDate": "03/2018",
-      "summary": "Development of a REST API using Spring for a major oil company. Responsible for building secure, scalable enterprise services.",
-      "highlights": [
-        "Created a REST API for an energy-sector company.",
-        "Stack: Java 8, Spring, REST, Maven."
+      "summary": "Development of enterprise REST services for a major energy-sector company, focused on building secure and maintainable backend applications.",
+      "responsibilities": [
+        "Develop REST APIs using Java and Spring.",
+        "Implement backend business logic and service integrations.",
+        "Work with enterprise application requirements and API contracts."
+      ],
+      "achievements": [
+        "Created a REST API for an energy-sector company."
+      ],
+      "technologies": [
+        "Java 8",
+        "Spring",
+        "REST",
+        "Maven"
+      ],
+      "domains": [
+        "Energy"
       ]
     },
     {
       "name": "Administración Tributaria Mendoza (ATM)",
       "position": "Java Developer",
-      "url": "",
       "startDate": "01/2017",
       "endDate": "05/2017",
-      "summary": "Development and maintenance of internal applications using Java 6 and 7, Hibernate and ZKoss. SQL query optimization and creation of fiscal reports using JasperReports.",
-      "highlights": [
-        "SQL optimization with JDBC.",
-        "Mass printing of fiscal reports with JasperReports and Java.",
-        "Web development with HTML, CSS, JSP and JavaScript."
+      "summary": "Development and maintenance of internal tax administration applications using Java, Hibernate and ZKoss, with a focus on database access, reporting and application maintenance.",
+      "responsibilities": [
+        "Develop and maintain Java web applications.",
+        "Optimize SQL queries and database access using JDBC.",
+        "Develop and maintain fiscal reporting processes."
+      ],
+      "achievements": [
+        "Optimized SQL queries using JDBC.",
+        "Implemented mass generation and printing of fiscal reports using JasperReports and Java."
+      ],
+      "technologies": [
+        "Java 6",
+        "Java 7",
+        "Hibernate",
+        "JDBC",
+        "SQL",
+        "ZKoss",
+        "JasperReports",
+        "JSP",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "domains": [
+        "Tax administration"
       ]
     },
     {
       "name": "ATM",
       "position": "Java Developer",
-      "url": "",
       "startDate": "05/2013",
       "endDate": "05/2016",
-      "summary": "Participation in various projects using Java 6 and 7, Hibernate and ZKoss. Development of SQL queries, fiscal reports and informational web systems.",
-      "highlights": [
-        "Development with Java 6–7, Hibernate and ZKoss.",
-        "SQL queries with JDBC.",
-        "Mass report generation with JasperReports and Java.",
-        "Informational website development using HTML, CSS, JSP and JavaScript."
+      "summary": "Development and maintenance of Java web applications supporting tax administration and internal information systems.",
+      "responsibilities": [
+        "Develop Java web applications using Java, Hibernate and ZKoss.",
+        "Develop SQL queries and database access using JDBC.",
+        "Develop fiscal reports and informational web applications."
+      ],
+      "achievements": [
+        "Developed applications using Java 6–7 and Hibernate.",
+        "Implemented mass fiscal report generation using JasperReports and Java."
+      ],
+      "technologies": [
+        "Java 6",
+        "Java 7",
+        "Hibernate",
+        "JDBC",
+        "SQL",
+        "ZKoss",
+        "JasperReports",
+        "JSP",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "domains": [
+        "Tax administration",
+        "Government systems"
       ]
     }
   ],
   "education": [
     {
       "institution": "Universidad Tecnológica Nacional",
-      "url": "",
-      "area": "Systems Engineering (Incomplete)",
+      "area": "Systems Engineering",
       "studyType": "Bachelor",
+      "status": "Incomplete",
       "startDate": "2013",
       "endDate": "2016",
       "location": "Mendoza, Argentina"
     },
     {
       "institution": "ISI College",
-      "url": "",
       "area": "Systems Analyst",
       "studyType": "Technical Degree",
       "startDate": "2019",
@@ -122,43 +225,52 @@
     {
       "name": "Backend",
       "keywords": [
-        "Java 8",
-        "Java 11",
-        "Java 17",
+        "Java 7–17",
+        "Spring",
         "Spring Boot",
-        "Maven",
-        "Gradle"
+        "REST APIs",
+        "Microservices",
+        "JPA",
+        "Hibernate"
       ]
     },
     {
       "name": "Databases & Persistence",
       "keywords": [
         "PostgreSQL",
-        "Redis",
+        "MySQL",
         "SQL",
-        "JDBC"
+        "JDBC",
+        "Redis",
+        "Liquibase",
+        "Flyway"
       ]
     },
     {
       "name": "Messaging & Integration",
       "keywords": [
-        "RabbitMQ"
+        "RabbitMQ",
+        "REST",
+        "OAuth",
+        "Microsoft Entra ID"
       ]
     },
     {
       "name": "Testing",
       "keywords": [
-        "Groovy Spock",
-        "JUnit"
+        "Spock",
+        "JUnit",
+        "Testcontainers"
       ]
     },
     {
       "name": "DevOps & Infrastructure",
       "keywords": [
         "Docker",
-        "Rancher",
+        "Git",
         "GitLab CI/CD",
-        "Azure DevOps"
+        "Azure DevOps",
+        "Rancher"
       ]
     },
     {
@@ -166,9 +278,9 @@
       "keywords": [
         "React",
         "TypeScript",
+        "JavaScript",
         "HTML",
-        "CSS",
-        "JavaScript"
+        "CSS"
       ]
     }
   ],
