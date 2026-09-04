@@ -8,6 +8,7 @@ const prettyThemeLabels: Record<ThemeName, string> = {
   minimal: 'Minimal',
   compact: 'Compact',
   twocolumn: 'Two Column',
+  engineering: 'Engineering (Senior)',
 };
 
 const ThemeSelector = () => {

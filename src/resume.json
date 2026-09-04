@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Federico Failla",
-    "label": "Java Developer | Software Engineer",
+    "label": "Senior Software Engineer · Java / Backend",
     "image": "",
     "email": "fedefailla@hotmail.com",
     "phone": "02612593430",
     "url": "https://www.linkedin.com/in/ffailla/",
-    "summary": "Software developer with more than 5 years of experience working mainly with Java in different sectors, including banking, taxes, gaming, and reservation/order management systems. In recent years I have contributed to online booking and work-order platforms, handling application implementation and deployment with GitLab, AZDO, Docker and Rancher. I have strong experience with Java 8–17 and Spring Boot, as well as knowledge of React and TypeScript for building modern user interfaces. I am characterized by teamwork, collaboration and a commitment to delivering efficient, high-quality solutions.",
+    "summary": "Software engineer with 5+ years of experience building backend and full-stack applications with Java 8–17 and Spring Boot across banking, tax administration, gaming, and online booking domains. Recent work focuses on microservices, REST APIs, and cross-functional delivery with Product, QA and BI teams. Hands-on with application implementation and deployment using GitLab, Azure DevOps, Docker and Rancher, PostgreSQL-backed services, and React/TypeScript interfaces.",
     "location": {
       "city": "Zapala",
       "region": "Neuquén",
@@ -27,10 +27,18 @@
       "url": "",
       "startDate": "10/2021",
       "endDate": "Present",
-      "summary": "Development of services using Java 8–17 and React within a microservices environment. Part of a cross-functional team collaborating across multiple areas of a nationwide U.S. online booking company. Focused on efficiency, development best practices, code quality and application security while building scalable, robust systems together with Product, QA and BI teams.",
-      "highlights": [
-        "Tech stack: Java 17, Spring 3.4, Groovy Spock, React 18, PostgreSQL, RabbitMQ, Docker, GitLab, Azure DevOps."
-      ]
+      "summary": "Microservices development for a nationwide U.S. online booking company using Java 8–17 and React. Cross-functional collaboration with Product, QA and BI teams on scalable backend services.",
+      "responsibilities": [
+        "Develop and maintain backend services within a microservices environment.",
+        "Collaborate across multiple product areas with Product, QA and BI teams.",
+        "Apply development best practices with focus on code quality and application security."
+      ],
+      "technologies": {
+        "Backend": ["Java 17", "Spring 3.4", "Groovy Spock"],
+        "Data & Messaging": ["PostgreSQL", "RabbitMQ"],
+        "Frontend": ["React 18"],
+        "Infrastructure": ["Docker", "GitLab", "Azure DevOps"]
+      }
     },
     {
       "name": "Aconcagua Software Factory",
@@ -38,12 +46,17 @@
       "url": "",
       "startDate": "02/2020",
       "endDate": "10/2021",
-      "summary": "Development of enterprise applications using Java, Spring and React. Built a JHipster-based project to manage collaborators and projects. Collaborated with a U.S. company to develop the back-office of a game and its related services.",
-      "highlights": [
-        "Created a JHipster project to manage collaborators and projects.",
-        "Backend development for a U.S. gaming company using Java 11 and Spring Boot.",
-        "Technologies: Spring Boot, React, Gradle, PostgreSQL, Docker, Flyway, Redis, RabbitMQ."
-      ]
+      "summary": "Enterprise application development using Java, Spring and React, including a JHipster-based internal project and backend services for a U.S. gaming company.",
+      "achievements": [
+        "Built a JHipster project to manage collaborators and projects.",
+        "Developed backend services for a U.S. gaming company using Java 11 and Spring Boot."
+      ],
+      "technologies": {
+        "Backend": ["Java 11", "Spring Boot", "Gradle"],
+        "Data & Messaging": ["PostgreSQL", "Redis", "RabbitMQ", "Flyway"],
+        "Frontend": ["React"],
+        "Infrastructure": ["Docker"]
+      }
     },
     {
       "name": "Aconcagua Software Factory",
@@ -107,8 +120,7 @@
   ],
   "skills": [
     {
-      "name": "Java",
-      "level": "Advanced",
+      "name": "Backend",
       "keywords": [
         "Java 8",
         "Java 11",
@@ -119,29 +131,7 @@
       ]
     },
     {
-      "name": "Frontend",
-      "level": "Intermediate",
-      "keywords": [
-        "React",
-        "TypeScript",
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ]
-    },
-    {
-      "name": "DevOps & Infrastructure",
-      "level": "Intermediate",
-      "keywords": [
-        "Docker",
-        "Rancher",
-        "GitLab CI/CD",
-        "Azure DevOps"
-      ]
-    },
-    {
-      "name": "Databases",
-      "level": "Intermediate",
+      "name": "Databases & Persistence",
       "keywords": [
         "PostgreSQL",
         "Redis",
@@ -150,11 +140,35 @@
       ]
     },
     {
+      "name": "Messaging & Integration",
+      "keywords": [
+        "RabbitMQ"
+      ]
+    },
+    {
       "name": "Testing",
-      "level": "Intermediate",
       "keywords": [
         "Groovy Spock",
         "JUnit"
+      ]
+    },
+    {
+      "name": "DevOps & Infrastructure",
+      "keywords": [
+        "Docker",
+        "Rancher",
+        "GitLab CI/CD",
+        "Azure DevOps"
+      ]
+    },
+    {
+      "name": "Frontend",
+      "keywords": [
+        "React",
+        "TypeScript",
+        "HTML",
+        "CSS",
+        "JavaScript"
       ]
     }
   ],
@@ -168,7 +182,7 @@
       "fluency": "Upper-Intermediate (B2)"
     },
     {
-      "language": "Intalian",
+      "language": "Italian",
       "fluency": "Intermediate (B1)"
     }
   ]

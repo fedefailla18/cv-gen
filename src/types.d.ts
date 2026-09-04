@@ -16,6 +16,12 @@ export interface WorkItem {
   endDate?: string;
   summary?: string;
   highlights?: string[];
+  /** Engineering scope bullets — rendered after achievements when both are present */
+  responsibilities?: string[];
+  /** Concrete engineering contributions — receive visual priority over responsibilities */
+  achievements?: string[];
+  /** Grouped technologies for scannable per-role context, e.g. { Backend: ["Java 17", "Spring Boot"] } */
+  technologies?: Record<string, string[]>;
 }
 
 export interface EducationItem {

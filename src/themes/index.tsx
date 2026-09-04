@@ -1,5 +1,6 @@
 import { Resume } from '../types'
 import CompactTheme from './CompactTheme'
+import EngineeringTheme from './EngineeringTheme'
 import MinimalTheme from './MinimalTheme'
 import ModernTheme from './ModernTheme'
 import TwoColumnTheme from './TwoColumnTheme'
@@ -14,6 +15,7 @@ export const THEMES = {
     minimal: MinimalTheme,
     compact: CompactTheme,
     twocolumn: TwoColumnTheme,
+    engineering: EngineeringTheme,
 } as const
 
 export type ThemeName = keyof typeof THEMES
