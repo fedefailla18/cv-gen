@@ -20,8 +20,10 @@ export interface WorkItem {
   responsibilities?: string[];
   /** Concrete engineering contributions — receive visual priority over responsibilities */
   achievements?: string[];
-  /** Grouped technologies for scannable per-role context, e.g. { Backend: ["Java 17", "Spring Boot"] } */
-  technologies?: Record<string, string[]>;
+  /** Either a flat list ["Java 17", "Spring Boot"] or grouped { Backend: ["Java 17"] } for scannable per-role context */
+  technologies?: string[] | Record<string, string[]>;
+  /** Business/product domains the role touched, e.g. ["Online booking", "Automotive"] */
+  domains?: string[];
 }
 
 export interface EducationItem {

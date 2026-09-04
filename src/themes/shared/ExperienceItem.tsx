@@ -2,6 +2,7 @@ import { WorkItem } from '../../types';
 import {
   formatDateRange,
   formatTechnologyGroups,
+  joinInline,
   mergeWorkBullets,
   resolveWorkTechnologies,
 } from '../../utils/cvRenderHelpers';
@@ -19,6 +20,7 @@ export function ExperienceItem({ job, roleIndex, totalRoles, compact = false }: 
   const bullets = mergeWorkBullets(job, roleIndex, totalRoles);
   const technologyGroups = resolveWorkTechnologies(job);
   const technologyLines = technologyGroups ? formatTechnologyGroups(technologyGroups) : [];
+  const domainsLine = job.domains?.length ? `Domains: ${joinInline(job.domains)}` : undefined;
   const isRecent = roleIndex === 0;
 
   return (
@@ -66,6 +68,12 @@ export function ExperienceItem({ job, roleIndex, totalRoles, compact = false }: 
             <p key={line}>{line}</p>
           ))}
         </div>
+      )}
+
+      {domainsLine && (
+        <p className={`${compact ? 'text-[11px]' : 'text-xs'} text-gray-500 italic`}>
+          {domainsLine}
+        </p>
       )}
     </article>
   );

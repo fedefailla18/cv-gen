@@ -82,6 +82,10 @@ export function mergeWorkBullets(job: WorkItem, roleIndex: number, totalRoles: n
 }
 
 export function resolveWorkTechnologies(job: WorkItem): Record<string, string[]> | null {
+  if (Array.isArray(job.technologies)) {
+    return job.technologies.length > 0 ? { Technologies: job.technologies } : null;
+  }
+
   if (job.technologies && Object.keys(job.technologies).length > 0) {
     return job.technologies;
   }
