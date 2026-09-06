@@ -23,10 +23,10 @@ Node version is pinned via `.nvmrc` (v22.22.2).
 ## Architecture
 
 - **State Management:** React Context API (`src/context/ResumeContext.tsx`) holds resume data, theme selection, and section ordering.
-- **Themes:** Extensible theme system in `src/themes/` — functional components that receive resume data and render specific sections. Register new themes in `src/themes/index.tsx`.
-- **CV data:** Initial resume data loads from `src/resume.json`, typed via `src/types.d.ts`.
+- **Themes:** Extensible theme system in `src/themes/` — functional components that receive resume data and render specific sections. Register new themes in `src/themes/index.tsx`. **Engineering (Senior)** (`EngineeringTheme.tsx`) is the reference theme: it composes shared building blocks in `src/themes/shared/` (`ExperienceItem`, `SectionHeading`, `ContactLine`, `SkillGroupRow`) plus `src/utils/cvRenderHelpers.ts`, instead of duplicating markup per theme like the legacy themes (Modern/Minimal/Compact/Two-Column) still do — migrating those onto the shared components is a known pending refactor.
+- **CV data:** Initial resume data loads from `src/resume.json`, typed via `src/types.d.ts`. A `WorkItem.technologies` is `string[] | Record<string, string[]>` — accept both a flat list and a grouped record; `resolveWorkTechnologies()` in `cvRenderHelpers.ts` normalizes either shape before rendering. `WorkItem.domains` is an optional flat list (e.g. `["Online booking", "Automotive"]`) rendered as a compact line per role.
 - **PDF export:** `html2pdf.js` + `react-to-print`; pagination controlled via `.page-break-before` / `.page-break-after` / `.page-break-avoid` classes and logic in `pdfExport.tsx`.
-- **Interviews:** `InterviewsDashboard` component manages candidates and jobs; data persists directly to the local `interviews/` directory via the Vite dev server API (no backend/DB). Candidate CSV scores are ingested with a Smart CSV Importer that parses rows copied from a Google Sheets evaluation form.
+- **Interviews:** `InterviewsDashboard` component manages candidates and jobs; data persists directly to the local `interviews/` directory via the Vite dev server API (no backend/DB). Candidate CSV scores are ingested with a Smart CSV Importer that parses rows copied from a Google Sheets evaluation form. `interviews/jobs/` holds the open positions *you* are hiring for — candidates in `interviews/candidates/` are evaluated against them; this is unrelated to your own CV/job search.
 
 ## Senior Interviewer Skill
 
@@ -35,9 +35,18 @@ This project defines a specialized "Senior Backend Engineering Interviewer" pers
 - Skill definition: `.claude/skills/senior-interviewer/SKILL.md` (mirrored for Gemini at `.gemini/skills/senior-interviewer/SKILL.md` — keep both in sync if the persona changes).
 - Workflow: save interview notes at `interviews/<candidate-name>/notes.md`, then ask Claude to generate feedback from that file.
 
+## CV Design System Skill
+
+Specialized skill for building/extending CV themes.
+
+- Skill definition (rendering spec — layout, hierarchy, component structure): `.claude/skills/master-fe-requirement-cv-template-translator/SKILL.md` (mirrored for Gemini at `.gemini/skills/master-fe-requirement-cv-template-translator/SKILL.md` — keep both in sync).
+- Content spec (writing spec — tone, prioritization, bullet phrasing, seniority signal, page-length judgment calls): `upgrade.md` at the repo root. Read both together — the skill says how to lay it out, `upgrade.md` says how to write what goes in it.
+- Reference implementation: `EngineeringTheme.tsx`. New themes, or the legacy-theme refactor, should follow its pattern rather than duplicating markup.
+
 ## Development Conventions
 
 - TypeScript everywhere; define resume/interview data shapes in `src/types.d.ts`.
 - Tailwind utility classes for styling; follow existing spacing/typography patterns across themes.
 - Access resume state only through `useResumeContext` — don't hold resume data in local component state across Edit/Preview mode switches.
 - ESLint v9 flat config only — do not add a legacy `.eslintrc.*`.
+- `tsconfig.json` has `noEmit: true` on purpose — never run bare `tsc` (only `tsc --noEmit` for type-checking) and never commit a `.js` file under `src/` that has a `.ts`/`.tsx` twin. A prior bare `tsc` run once emitted compiled `.js` next to the sources, and since Vite resolves extensionless imports as `.js` before `.tsx`/`.ts`, those stale files silently shadowed real source changes in both dev and production builds — that's a lesson learned the hard way, not a hypothetical.

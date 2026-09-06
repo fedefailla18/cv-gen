@@ -12,7 +12,7 @@ A dual-purpose tool for high-standard technical interviews and interactive resum
 
 ### 2. Interactive CV Generator
 - **Real-time Preview:** Edit your `src/resume.json` or use the built-in editor to see changes instantly.
-- **Theme Selection:** Choose from multiple professional themes (Modern, Minimal, Compact, Two-Column).
+- **Theme Selection:** Choose from multiple professional themes (Modern, Minimal, Compact, Two-Column, **Engineering (Senior)**).
 - **Drag-and-Drop:** Reorder CV sections with ease.
 - **PDF Export:** High-quality PDF generation with proper pagination.
 
@@ -72,6 +72,10 @@ This project ships instructions for both AI coding assistants used in this works
 - **Senior Interviewer skill** — a specialized "Senior Backend Engineering Interviewer" persona for calibrated candidate feedback, available to both assistants:
   - Claude Code: `.claude/skills/senior-interviewer/SKILL.md`
   - Gemini: `.gemini/skills/senior-interviewer/SKILL.md`
+- **CV Design System skill** — the frontend rendering spec for building/extending CV themes, available to both assistants:
+  - Claude Code: `.claude/skills/master-fe-requirement-cv-template-translator/SKILL.md`
+  - Gemini: `.gemini/skills/master-fe-requirement-cv-template-translator/SKILL.md`
+  - Paired with `upgrade.md`, which is the *content* spec (how to write the CV copy — tone, prioritization, seniority signal) as opposed to the skill's *rendering* spec (how to lay it out). The **Engineering (Senior)** theme is the reference implementation of both.
 
 Save interview notes under `interviews/<candidate-name>/notes.md`, then ask either assistant to generate feedback from that file.
 

@@ -13,9 +13,9 @@ A modern, interactive CV generator that allows users to edit their resume data i
   - `react-json-editor-ajrm`: Integrated JSON editor for real-time resume updates.
   - `@hello-pangea/dnd`: Enables drag-and-drop reordering of CV sections.
 - **Architecture:**
-  - **Themes:** Extensible theme system located in `src/themes/`. Themes are functional components that receive resume data and render specific sections.
+  - **Themes:** Extensible theme system located in `src/themes/`. Themes are functional components that receive resume data and render specific sections. **Engineering (Senior)** is the reference theme — it uses shared building blocks in `src/themes/shared/` (`ExperienceItem`, `SectionHeading`, `ContactLine`, `SkillGroupRow`) and `src/utils/cvRenderHelpers.ts` instead of duplicating markup per theme; the legacy themes (Modern/Minimal/Compact/Two-Column) predate this pattern and still duplicate markup — refactoring them onto the shared components is a known pending item.
   - **Components:** Modular UI components in `src/components/` for editing, previewing, and managing CV sections.
-  - **Data Source:** Initial resume data is loaded from `src/resume.json`, which follows a standard resume schema.
+  - **Data Source:** Initial resume data is loaded from `src/resume.json`, typed via `src/types.d.ts`. A work entry's `technologies` field accepts either a flat list (`["Java 17", "Spring Boot"]`) or a grouped record (`{ Backend: ["Java 17"] }`) — the Engineering theme normalizes both. `domains` (e.g. `["Online booking", "Automotive"]`) is an optional per-role field rendered as a compact line.
 
 ## Building and Running
 
@@ -73,6 +73,15 @@ This project includes a specialized **Senior Backend Engineering Interviewer** s
     1. Save interview notes in `interviews/<candidate-name>/notes.md`.
     2. Prompt the AI: "Generate feedback for the notes in `interviews/<candidate-name>/notes.md`."
     3. The AI will act as the defined Senior Interviewer role to provide a technical, concise, and calibrated evaluation.
+
+## CV Generation (Custom Skill)
+
+This project includes a **CV Design System** skill for building and extending CV themes.
+
+- **Skill Definition:** Located in `.gemini/skills/master-fe-requirement-cv-template-translator/SKILL.md` (mirrored for Claude Code at `.claude/skills/master-fe-requirement-cv-template-translator/SKILL.md`). This is the *rendering* spec — layout, hierarchy, and component structure.
+- **Content Spec:** `upgrade.md` (repo root) is the companion *writing* spec — tone, what to prioritize, how to phrase experience bullets, seniority signal, one-vs-two-page judgment calls. Read both together when working on a theme: the skill says how to lay it out, `upgrade.md` says how to write what goes in it.
+- **Reference Implementation:** The **Engineering (Senior)** theme (`src/themes/EngineeringTheme.tsx`) is the theme built from this skill + spec. New themes, or the legacy-theme refactor, should follow its pattern (shared components + `cvRenderHelpers.ts`) rather than duplicating markup.
+- **Gotcha:** `tsconfig.json` has `noEmit: true` on purpose — an earlier bare `tsc` run once emitted compiled `.js` files directly next to the `.tsx`/`.ts` sources in `src/`, and since Vite resolves extensionless imports as `.js` before `.tsx`, those stale files silently shadowed the real source in both dev and production builds. Never run `tsc` without `--noEmit`, and never commit a `.js` file under `src/` that has a `.ts`/`.tsx` twin.
 
 ## Interviews Dashboard (Web UI)
 
