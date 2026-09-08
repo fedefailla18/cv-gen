@@ -36,7 +36,7 @@
         "Participate in code reviews, automated testing, CI/CD workflows and production deployments."
       ],
       "achievements": [
-        "Contributed to the migration of backend services from Java 11 to Java 17, addressing compatibility, dependency and build/runtime changes while maintaining application behavior.",
+        "Contributed to the migration of backend services from Java 8 to Java 17, addressing compatibility, dependency and build/runtime changes while maintaining application behavior.",
         "Implemented an incremental VCDB ETL process using a Dockerized MySQL environment, processing the full reference dataset and subsequent monthly changes to support automotive data integration.",
         "Optimized backend availability functionality by investigating and addressing inefficient database access patterns, including N+1 query behavior.",
         "Contributed to business-rule enhancements involving multiple responsible parties within repair-order workflows.",
@@ -47,9 +47,8 @@
         "Worked within a trunk-based development approach, contributing to CI/CD and continuous integration practices."
       ],
       "technologies": [
-        "Java 17",
-        "Spring Boot",
-        "Spring",
+        "Java 8-11-17",
+        "Spring Boot 2-3",
         "REST APIs",
         "Microservices",
         "PostgreSQL",
