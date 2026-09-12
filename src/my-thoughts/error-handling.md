@@ -8,6 +8,8 @@ date: "2026-06-23"
 summary: "Clasificación de errores, principio fail-fast, diseño para dos audiencias y patrones de observability estructurado"
 ---
 
+Ver también [Observability: Diagnosing Production Bugs From a Log Line](observability.md) para el método paso a paso de ir de un error crudo a la causa raíz confirmada — esta nota es sobre cómo *estructurar* el error una vez identificado, esa otra es sobre cómo *encontrarlo*.
+
 ## El problema de fondo
 
 Un error no es solo un mensaje. Es una señal para dos audiencias distintas con necesidades opuestas:
